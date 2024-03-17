@@ -1,0 +1,27 @@
+mybatis-plus:
+  # 指定Mapper XML文件的位置，使用classpath通配符指定路径。
+  mapper-locations: classpath:mappers/**/*.xml
+  # 指定实体类的包路径，用于自动扫描并注册类型别名。
+  type-aliases-package: com.bx.*
+  configuration:
+    # 将 Java 实体类属性的驼峰命名规则转换为数据库字段的下划线命名规则
+    map-underscore-to-camel-case: true
+    # 是否开启二级缓存。
+    cache-enabled: false
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 指定mybatis的主配置文件xml，指定之后无需再yml配置
+  #  config-location: classpath:/conf/mybatis-plus-config.yml
+  # 全局配置
+  global-config:
+    # 关闭banner图
+    banner: false
+    db-config:
+      # ID自增
+      id-type: auto
+
+# 日志配置(打印sql,出现在log中)
+#logging:
+#  level:
+#    com.bx: debug
+

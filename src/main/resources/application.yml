@@ -1,0 +1,34 @@
+# 端口
+server:
+  port: 80
+  context-path: /
+  # Tomcat配置
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      # Tomcat最大线程数，默认为200
+      max: 800
+      # Tomcat最小线程数，默认10
+      min-spare: 30
+
+spring:
+  # 引入其它外部配置文件
+  config:
+    import: classpath:/conf/mybatis-plus-config.yml
+  # 配置文件环境
+  profiles:
+    active: dev
+
+  # 文件上传大小配置
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+  # thymeleaf模板配置
+  thymeleaf:
+    prefix: classpath:/templates/html/
+    suffix: .html
+    # 这个开发配置为false，开启缓存之后模板只编译一次，只适合生产环境性能提升
+    cache: false
+    encoding: UTF-8

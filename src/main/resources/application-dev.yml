@@ -1,0 +1,40 @@
+spring:
+  # JDBC配置
+  datasource:
+    # 指定连接池，可以切换c3p0，德鲁伊等
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: cocosum
+    password: cocosum
+    hikari:
+      # 自动提交
+      auto-commit: true
+      # connections = ((cpu核心数量 * 2) + 磁盘数量)近似值。默认10
+      maximum-pool-size: 10
+      # 最小连接数。默认10,不建议设置。默认与maximum-pool-size 一样大小。推荐使用固定的连接池
+      minimum-idle: 10
+      # 获取连接时，检测语句
+      connection-test-query: select 1
+      # 连接超时，默认30秒
+      connection-timeout: 20000
+
+  # 配置缓存, 指定 redis 缓存
+#  cache:
+#    type: redis
+#    cache-names: redis-cache-pc
+#
+#  data:
+#    redis:
+#      host: 192.168.198.130
+#      port: 6379
+#      password: redis123
+
+      # 配置高可用集群
+#      sentinel:
+#        master: mymater
+#        nodes: redis:26380,redis:26381,redis:26382
+#
+#      # 配置Cluster分布式系统
+#      cluster:
+#        nodes: redis:6380,redis:6381,redis:6382,redis:6383,redis:6384
