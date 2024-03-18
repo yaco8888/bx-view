@@ -4,9 +4,9 @@ spring:
     # 指定连接池，可以切换c3p0，德鲁伊等
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
-    username: cocosum
-    password: cocosum
+    url: jdbc:mysql://localhost:3306/stu_db?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
     hikari:
       # 自动提交
       auto-commit: true

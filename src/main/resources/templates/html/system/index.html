@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../../statics/node_modules/element-ui/lib/theme-chalk/index.css" />
+		<script type="text/javascript" src="../../../statics/system/vue/vue-v2.6.10.js"></script>
+		<script type="text/javascript" src="../../../statics/node_modules/element-ui/lib/index.js"></script>
+		<script type="text/javascript" src="../../../statics/system/vue/axios-0.18.0.js"></script>
+		<style>
+			body{
+				margin: 0px;
+			}
+			.el-header{
+				height: 57px !important;
+			}
+			.el-header,
+			.el-footer {
+				background-image: url(../../../statics/system/img/ba1.png);
+				background-repeat: no-repeat;
+				background-size: 100%;
+				color: #000;
+				text-align: center;
+				line-height: 60px;
+				font-size: 25px;
+				font-weight: 400;
+			}
+			
+			.el-aside {
+				background-color: rgb(232, 233, 238);
+				color: #5C637B;
+				text-align: left;
+				line-height: 200px;
+				height: 840px;
+			}
+			
+			.el-main {
+				background-color: #E9EEF3;
+				color: #333;
+				text-align: center;
+				line-height: 160px;
+			}
+			
+			a {
+				/*设置超链接的颜色和 删除下划线*/
+				text-decoration: none;
+				display: block;
+			}
+			
+			.el-menu-item a {
+				color: #5C637B;
+			}
+			.el-menu-item:hover a,
+			.el-menu-item.is-active a {
+				color: #0073CC;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<el-container>
+				<el-header>
+					<div style="float: left;">课堂管理系统</div>
+					<div style="float: right;font-size: 17px;">
+						<el-link type="success" :underline="false" style="font-size: 17px;">返回前台</el-link>
+<!--						欢迎您:<span>{{user.name}}</span>-->
+						<el-link type="primary" style="font-size: 17px;"  @click="userBack" :underline="false">退出</el-link>
+					</div>
+				</el-header>
+				<el-container>
+					<el-aside width="200px">
+						<el-menu default-active="2" style="font-size: 12px;" class="el-menu-vertical-demo"  background-color="rgb(232,233,238)" text-color="rgb(99,103,117)" active-text-color="#0073CC">
+							<el-submenu index="1">
+								<template slot="title">
+									<i class="el-icon-location"></i>
+									<span>后台管理</span>
+								</template>
+								<el-menu-item-group>
+									<el-menu-item index="1-1">
+										<a href="User/index.html" target="main">学生管理</a>
+									</el-menu-item>
+									<el-menu-item index="1-2">
+										<a href="course/index.html" target="main">任务发布</a>
+									</el-menu-item>
+								</el-menu-item-group>
+								</el-menu-item-group>
+							</el-submenu>
+						</el-menu>
+					</el-aside>
+					<el-main style="padding: 0px;">
+						<iframe name="main" width="100%" height="100%" frameborder="0"></iframe>
+					</el-main>
+				</el-container>
+			</el-container>
+		</div>
+
+	</body>
+	<script>
+		axios.defaults.withCredentials = true
+		new Vue({
+			el: "#app",
+			data: {
+				user:''
+			},
+			methods: {
+				getSessionUser(){
+					axios.get('http://localhost:8080/maven_test/userServlet?mark=getSessionUser').then(res=>{
+						if(res.data.code === 200){
+								this.user = res.data.data
+						}
+					}).catch(_ => {
+						this.$message.error('获取session中的用户名出现异常')
+					})
+				},
+				userBack() {
+					axios.get('http://localhost:8080/maven_test/userServlet?mark=removeSessionUser').then(res => {
+						location.href = "login.html"
+					}).catch(err => {
+						this.$message.error('获取session中的用户名出现异常')
+					})
+				}
+			},
+			created() {
+				this.getSessionUser()
+			},
+			
+		})
+	</script>
+
+</html>

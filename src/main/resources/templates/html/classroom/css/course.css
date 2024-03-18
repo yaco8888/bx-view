@@ -1,0 +1,336 @@
+@import 'public.css';
+.clearfix {
+  display: block;
+  content: '';
+  clear: both;
+}
+nav {
+  width: 100%;
+  height: 80px;
+  background: #fff;
+  box-shadow: 0 2px 3px #dad6d6;
+  vertical-align: top;
+}
+nav .main {
+  width: 1180px;
+  margin: 0 auto;
+}
+nav .main ul li:hover {
+  background: #80C4AE;
+  color: #fff;
+}
+nav .main ul li:hover a {
+  color: #fff;
+  font-size: 16px;
+}
+nav .logo {
+  width: 179px;
+  height: 53px;
+  margin: 13px 0 14px 0;
+}
+nav ul {
+  display: inline-block;
+  margin-left: 120px;
+  border: none;
+  font-size: 0;
+}
+nav ul li {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  margin-right: 17px;
+  text-align: center;
+}
+nav ul li a {
+  color: #333;
+  font-size: 16px;
+}
+nav ul li:last-child {
+  margin-right: 0;
+}
+nav div.search {
+  display: inline-block;
+  margin-left: 120px;
+  border: 1px solid #80C4AE;
+  border-radius: 3px;
+  width: 280px;
+  height: 36px;
+  text-align: center;
+  font-size: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  position: relative;
+}
+nav div.search .left {
+  width: 69px;
+  height: 36px;
+  border-right: 1px solid #80C4AE;
+  font-size: 14px;
+  text-align: center;
+  line-height: 36px;
+  float: left;
+  color: #80C4AE;
+  padding: 0;
+}
+nav div.search .left i {
+  margin-left: 6px;
+  font-size: 5px;
+}
+nav div.search input {
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 36px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+nav div.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 7px;
+  top: 8px;
+}
+nav .user {
+  display: inline-block;
+  margin-left: 24px;
+}
+nav .user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+nav .main .user {
+  position: relative;
+}
+nav .main .user .userlist {
+  width: 122px;
+  height: 269px;
+  background: url('../img/login/jx.png') no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 35px;
+  right: -15px;
+  display: none;
+  z-index: 99999;
+}
+nav .main .user .userlist ul {
+  width: 122px;
+  height: 100%;
+  padding-top: 30px;
+  margin-left: 0;
+}
+nav .main .user .userlist ul li {
+  font-size: 16px;
+  color: #333;
+  line-height: 30px;
+  height: 40px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+nav .main .user .userlist ul li:hover {
+  background: none;
+}
+nav .main .user .userlist ul li:last-child {
+  color: #666;
+}
+nav .main .user:hover .userlist {
+  display: block;
+}
+main {
+  width: 1180px;
+  margin: 0 auto;
+  height: 736px;
+  margin-top: 30px;
+}
+main .leftNav {
+  width: 220px;
+  height: 451px;
+  background: #FFFFFF;
+  box-shadow: 0px -1px 3px 3px rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  float: left;
+  cursor: pointer;
+}
+main .leftNav > ul {
+  padding: 25px 0px;
+}
+main .leftNav>ul>li .class {
+  background: url(../img/userSet/set_01.jpg) 17px center no-repeat;
+}
+main .leftNav > ul > li .order {
+  background: url(../img/userSet/set_03.jpg) 17px center no-repeat;
+}
+main .leftNav > ul > li .money {
+  background: url(../img/userSet/set_02.jpg) 17px center no-repeat;
+}
+main .leftNav > ul > li .center {
+  background: url(../img/userSet/set_04.jpg) 17px center no-repeat;
+}
+main .leftNav > ul > li > p {
+  display: block;
+  width: 100%;
+  position: relative;
+  padding-left: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+main .leftNav > ul > li > p span {
+  display: block;
+  font-size: 14px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+}
+main .leftNav > ul > li > p i {
+  position: absolute;
+  right: 40px;
+  top: 10px;
+}
+main .leftNav > ul > li ol > li {
+  padding-left: 60px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666666;
+  height: 25px;
+  line-height: 25px;
+}
+main .leftNav > ul > li ol .active {
+  color: #80C4AE;
+}
+main .rightUser {
+  float: left;
+  padding-top: 25px;
+  padding-left: 30px;
+}
+main .rightUser .title_top {
+  height: 50px;
+  line-height: 50px;
+}
+main .rightUser .title_top span {
+  display: inline-block;
+}
+
+/* 列表 */
+.lesson{
+  width: 930px;
+}
+.lesson ul li{
+  width: 440px;
+  height: 256px;
+  box-shadow: 0 2px 5px #dad6d6;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 30px 30px 0;
+  float: left;
+  cursor: pointer;
+}
+.lesson ul li:nth-child(2n){
+  margin-right: 0;
+}
+
+
+.lesson ul li .top {
+  width: 440px;
+  height: 196px;
+  vertical-align: top;
+  overflow: hidden;
+}
+.lesson ul li .top img{
+  width: 100%;
+  height: 100%;
+}
+.lesson ul li .top p{
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    height: 33px;
+    line-height: 33px;
+    font-size: 14px;
+    background: #000000;
+    color: #fff;
+    padding-left: 10px;
+    opacity: 0.3;
+}
+
+.lesson ul li .bottom {
+  width: 100%;
+  height: 62px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 7px;
+  padding-left: 14px;
+}
+.lesson .bottom span{
+  display: block;
+}
+.lesson .bottom span.time {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7A7A7A;
+}
+.lesson .bottom .right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 14px;
+  width: 86px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+  background: #74C6B3;
+  text-align: center;
+  border-radius: 4px;
+}
+
+footer {
+  width: 100%;
+  height: 264px;
+  background: #333;
+  margin-top: 36px;
+  padding-top: 87px;
+}
+footer .cont {
+  width: 1180px;
+  height: 100%;
+  margin: 0 auto;
+}
+footer .cont .main {
+  width: 1153px;
+  height: 90px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  margin: 0 auto;
+}
+footer .cont .main p {
+  margin-top: 5px;
+}
+div.fix {
+  position: fixed;
+  width: 70px;
+  height: 220px;
+  bottom: 10px;
+  right: 0px;
+}
+div.fix .lesson {
+  width: 70px;
+  height: 70px;
+}
+div.fix .test {
+  margin: 5px auto;
+}
+div.fix img {
+  width: 70px;
+  height: 70px;
+}

@@ -1,0 +1,54 @@
+body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{
+    margin:0;
+    padding: 0;
+}
+
+body{
+    font:12px "微软雅黑","Arial Narrow",HELVETICA;
+    background-color: #f2f2f2;
+}
+
+ul,ol{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color:#8b8d8c;
+}
+
+em,i{
+    font-style: normal;
+}
+
+b,strong{
+    font-weight: normal;
+}
+
+img{
+    border: none;
+    vertical-align: middle;
+}
+
+input{
+    outline: none;
+}
+
+textarea{
+    resize: none;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+    font-size:16px;
+}
+
+.clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.clearfix{
+    zoom: 1;
+}

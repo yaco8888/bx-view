@@ -1,0 +1,618 @@
+@import 'public.css';
+.clearfix {
+  display: block;
+  content: '';
+  clear: both;
+}
+.width {
+  width: 1180px;
+  height: auto;
+  margin: 0 auto;
+}
+nav {
+  width: 100%;
+  height: 80px;
+  background: #fff;
+  box-shadow: 0 2px 3px #dad6d6;
+  vertical-align: top;
+}
+nav .main {
+  width: 1180px;
+  margin: 0 auto;
+}
+nav .main ul li:hover {
+  background: #80C4AE;
+  color: #fff;
+}
+nav .main ul li:hover a {
+  color: #fff;
+  font-size: 16px;
+}
+nav .logo {
+  width: 179px;
+  height: 53px;
+  margin: 13px 0 14px 0;
+}
+nav ul {
+  display: inline-block;
+  margin-left: 120px;
+  border: none;
+  font-size: 0;
+}
+nav ul li {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  margin-right: 17px;
+  text-align: center;
+}
+nav ul li a {
+  color: #333;
+  font-size: 16px;
+}
+nav ul li:last-child {
+  margin-right: 0;
+}
+nav ul .check {
+  background: #80C4AE;
+  color: #fff;
+}
+nav ul .check a {
+  color: #fff;
+  font-size: 16px;
+}
+nav div.search {
+  display: inline-block;
+  margin-left: 120px;
+  border: 1px solid #80C4AE;
+  border-radius: 3px;
+  width: 280px;
+  height: 36px;
+  text-align: center;
+  font-size: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  position: relative;
+}
+nav div.search .left {
+  width: 69px;
+  height: 36px;
+  border-right: 1px solid #80C4AE;
+  font-size: 14px;
+  text-align: center;
+  line-height: 36px;
+  float: left;
+  color: #80C4AE;
+  padding: 0;
+}
+nav div.search .left i {
+  margin-left: 6px;
+  font-size: 5px;
+}
+nav div.search input {
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 36px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+nav div.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 7px;
+  top: 8px;
+}
+nav .login {
+  margin-left: 24px;
+  display: inline-block;
+  color: #80C4AE;
+  font-size: 14px;
+}
+nav .user {
+  display: inline-block;
+  margin-left: 24px;
+  display: none;
+}
+nav .user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+nav .main .user {
+  position: relative;
+}
+nav .main .user .userlist {
+  width: 122px;
+  height: 269px;
+  background: url('../img/login/jx.png') no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 35px;
+  right: -15px;
+  display: none;
+  z-index: 99999;
+}
+nav .main .user .userlist ul {
+  width: 122px;
+  height: 100%;
+  padding-top: 30px;
+  margin-left: 0;
+}
+nav .main .user .userlist ul li {
+  font-size: 16px;
+  color: #333;
+  line-height: 30px;
+  height: 40px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+nav .main .user .userlist ul li:hover {
+  background: none;
+}
+nav .main .user .userlist ul li:last-child {
+  color: #666;
+}
+nav .main .user:hover .userlist {
+  display: block;
+}
+footer {
+  width: 100%;
+  height: 264px;
+  background: #333;
+  padding-top: 87px;
+}
+footer .cont {
+  width: 1180px;
+  height: 100%;
+  margin: 0 auto;
+}
+footer .cont .main {
+  width: 1153px;
+  height: 90px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  margin: 0 auto;
+}
+footer .cont .main p {
+  margin-top: 5px;
+}
+.pos {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 99999999;
+}
+.pos .login {
+  width: 520px;
+  height: 522px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  padding-top: 30px;
+}
+.pos .login span.close {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  color: #999;
+  z-index: 9999;
+  font-size: 20px;
+}
+.pos .login img {
+  width: 136px;
+  height: 40px;
+  margin-bottom: 46px;
+}
+.pos .login ul {
+  padding-left: 20px;
+}
+.pos .login ul::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.pos .login ul li {
+  width: 134px;
+  height: 1px;
+  float: left;
+  border-top: 1px solid #ececec;
+  margin-top: 12px;
+}
+.pos .login ul li.phone {
+  float: left;
+  width: 162px;
+  height: 25px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 25px;
+  border: none;
+  margin: 0 18px;
+  margin-bottom: 21px;
+}
+.pos .login input {
+  display: block;
+  margin-left: 110px;
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #80C4AE;
+  padding-left: 24px;
+  margin-bottom: 20px;
+}
+.pos .login .loginbtn {
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #80C4AE;
+  background: #74C6B3;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 10px;
+}
+.pos .login p {
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 36px;
+}
+.pos .login p::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.pos .login p span {
+  display: inline-block;
+  color: #333;
+  font-size: 12px;
+}
+.pos .login p span:first-child {
+  float: left;
+}
+.pos .login p span:last-child {
+  float: right;
+}
+.pos .login p span a {
+  font-size: 12px;
+  color: #74C6B3;
+}
+.pos .login p.getCenter {
+  display: block;
+}
+.pos .login p.getCenter img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.pos .login p.getCenter img:nth-child(2) {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+.all {
+  width: 100%;
+  height: 60px;
+}
+.all .crumbs {
+  width: 1180px;
+  height: 60px;
+  line-height: 60px;
+  text-align: left;
+  margin: 0 auto;
+  padding-left: 20px;
+}
+.all .crumbs span {
+  margin-right: 20px;
+  color: #333;
+  font-size: 14px;
+}
+.all .crumbs span:nth-child(2n) {
+  color: #000;
+}
+main {
+  background: #fafafa;
+}
+main .classDetail {
+  width: 1180px;
+  height: auto;
+  margin: 0 auto;
+}
+main .classDetail::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+main .classDetail div {
+  float: left;
+}
+main .classDetail .left {
+  padding: 20px;
+  box-sizing: border-box;
+  width: 860px;
+  height: 580px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+main .classDetail .left img,
+main .classDetail .left video {
+  width: 100%;
+  height: 100%;
+}
+main .classDetail .right {
+  margin-left: 35px;
+  padding-top: 70px;
+}
+main .classDetail .right .title {
+  font-size: 22px;
+  color: #333;
+  font-weight: Semibold;
+  line-height: 30px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+}
+main .classDetail .right ul {
+  margin-top: 20px;
+}
+main .classDetail .right ul li {
+  font-size: 14px;
+  color: #333;
+  line-height: 20px;
+  font-weight: Regular;
+  margin-bottom: 10px;
+}
+main .classDetail .right ul li span {
+  color: #f66;
+  margin-right: 5px;
+}
+main .classDetail .right ul li.price {
+  margin-top: 83px;
+  vertical-align: top;
+}
+main .classDetail .right ul li.price span {
+  font-size: 36px;
+  line-height: 50px;
+  color: #80C4AE;
+}
+main .classDetail .right ul li.price span:first-child {
+  font-family: PingFangSC-Semibold, PingFang SC;
+}
+main .classDetail .right ul li.price span:last-child {
+  border: 2px solid #80C4AE;
+  margin-left: 31px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: inline-block;
+  width: 130px;
+  height: 48px;
+  padding-left: 33px;
+}
+main .classDetail .right ul li.sale {
+  width: 260px;
+  height: 48px;
+  padding-top: 13px;
+  padding-left: 15px;
+  background: #80C4AE;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  border-radius: 4px;
+}
+main .classDetail .right ul li.sale span {
+  color: #fff;
+}
+main .classDetail .right ul li.sale span:first-child {
+  border-right: 1px solid #fff;
+  padding-right: 25px;
+  margin-right: 25px;
+}
+main .row {
+  width: 1180px;
+  height: auto;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: 156px;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-left: 20px;
+  vertical-align: top;
+  padding-right: 25px;
+}
+main .row > p {
+  width: 80px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 28px;
+  margin-bottom: 20px;
+}
+main .row .left {
+  width: 265px;
+  float: left;
+}
+main .row .left .img {
+  width: 62px;
+  height: 62px;
+  background: #D8D8D8;
+  border-radius: 50%;
+  margin-left: 9px;
+  margin-right: 20px;
+  float: left;
+}
+main .row .left p.right {
+  width: 154px;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 22px;
+  float: left;
+  border-right: 1px solid #80C4AE;
+  padding-right: 30px;
+}
+main .row .left p.right span {
+  display: inline-block;
+  width: 124px;
+  font-size: 16px;
+}
+main .row .left p.right span:first-child {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+main .row .left::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+main .row .right {
+  color: #333;
+  font-size: 16px;
+  line-height: 22px;
+  vertical-align: top;
+  text-align: left;
+  width: 870px;
+  float: left;
+}
+main .row.title {
+  height: 66px;
+  text-align: center;
+  padding-top: 0;
+  border-radius: 0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 9999;
+}
+main .row.title span {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  line-height: 66px;
+  width: 80px;
+  height: 66px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+main .row.title span.active {
+  background: #80C4AE;
+  color: #fff;
+}
+main .classlist {
+  width: 1180px;
+  margin: 0 auto;
+  height: auto;
+  padding: 30px 40px 0;
+  background: #fff;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+main .classlist .detail {
+  width: 100%;
+}
+main .classlist .detail p.title {
+  display: block;
+  height: 22px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  line-height: 22px;
+  margin-bottom: 23px;
+  cursor: pointer;
+}
+main .classlist .detail p.title i {
+  margin-left: 900px;
+  font-size: 12px;
+  color: #999;
+}
+main .classlist .detail ul {
+  display: none;
+}
+main .classlist .detail ul.active {
+  display: block;
+}
+main .classlist .detail ul li {
+  display: block;
+  line-height: 20px;
+  overflow: hidden;
+  padding-top: 8px;
+  box-sizing: border-box;
+  height: 41px;
+}
+main .classlist .detail ul li:hover {
+  background: rgba(128, 196, 174, 0.2);
+  color: #80c4ae;
+}
+main .classlist .detail ul li::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+main .classlist .detail ul li p {
+  float: left;
+}
+main .classlist .detail ul li p i {
+  margin-right: 15px;
+  color: #80C4AE;
+  font-size: 16px;
+}
+main .classlist .detail ul li p span {
+  width: 219px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  width: auto;
+  cursor: pointer;
+}
+main .classlist .detail ul li p span.start {
+  width: auto;
+  height: 30px;
+  color: #74C6B3;
+  border: 2px solid #74C6B3;
+  border-radius: 4px;
+  padding: 5px 22px;
+  display: none;
+  margin-right: 15px;
+  margin-top: -3px;
+}
+main .classlist .detail ul li p:last-child {
+  float: right;
+}
+main .classlist .bottom {
+  text-align: center;
+  width: 1180px;
+  height: 159px;
+  background: #fafafa;
+  line-height: 159px;
+  margin-left: -40px;
+}
+main .classlist .bottom .seeAll {
+  font-size: 22px;
+  font-weight: 600;
+  color: #74C6B3;
+  text-decoration: underline;
+}
+main .classlist img {
+  width: 100%;
+  height: auto;
+}
+main .classlist.active {
+  display: block;
+}

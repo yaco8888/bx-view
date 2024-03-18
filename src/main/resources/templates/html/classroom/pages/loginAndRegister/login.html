@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/login.css" />
+    <script src="../../js/vue-v2.6.10.js"></script>
+    <script src="../../js/axios-0.18.0.js"></script>
+    <style>
+      .loginbtn {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="pos">
+        <div class="login">
+          <span class="close iconfont icon-close"></span>
+          <img src="../../img/login/loginlogo.png" alt="" />
+          <ul>
+            <li></li>
+            <li class="phone" style="color: red"></li>
+            <li></li>
+          </ul>
+
+          <input type="text" class="tel" id="" v-model="phone" placeholder="请输入您的手机号" />
+          <input type="password" class="pass" id="" v-model="password" placeholder="请输入密码" />
+          <em></em>
+          <div class="loginbtn" style="margin-left: 110px; line-height: 40px" @click="login()">登陆</div>
+
+          <p>
+            <span><a href="javascript:;">忘记密码</a></span>
+            <span>
+              还没有账号?
+              <a href="../loginAndRegister/register.html">点击注册</a>
+            </span>
+          </p>
+          <ul>
+            <li></li>
+            <li class="phone">使用第三方软件登录</li>
+            <li></li>
+          </ul>
+          <p class="getCenter">
+            <img src="../../img/login/wx.png" alt="" />
+            <img src="../../img/login/qq.png" alt="" />
+            <img src="../../img/login/sina.png" alt="" />
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      phone: '18239775134',
+      password: '123456'
+    },
+    methods: {
+      login() {
+        var params = new URLSearchParams()
+        params.append('phone', this.phone)
+        params.append('password', this.password)
+        params.append('mark', 'userLogin')
+        axios({
+          url: 'http://localhost:8080/maven_test/uServlet',
+          method: 'post',
+          data: params,
+          responseType: 'json'
+        })
+          .then(res => {
+            console.log(res)
+            if (res.data.code === 200) {
+              location.href = '../../index.html'
+            } else {
+              alert('账号或密码不正确')
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    },
+    created() {
+      //   this.login()
+    }
+  })
+</script>

@@ -1,0 +1,752 @@
+@import 'public.css';
+.clearfix {
+  display: block;
+  clear: both;
+  content: '';
+}
+nav {
+  width: 100%;
+  height: 80px;
+  background: #fff;
+  box-shadow: 0 2px 3px #dad6d6;
+  vertical-align: top;
+}
+nav .main {
+  width: 1180px;
+  margin: 0 auto;
+}
+nav .main ul li:hover {
+  background: #80C4AE;
+  color: #fff;
+}
+nav .main ul li:hover a {
+  color: #fff;
+  font-size: 16px;
+}
+nav .logo {
+  width: 179px;
+  height: 53px;
+  margin: 13px 0 14px 0;
+}
+nav ul {
+  display: inline-block;
+  margin-left: 120px;
+  border: none;
+  font-size: 0;
+}
+nav ul li {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  margin-right: 17px;
+  text-align: center;
+}
+nav ul li a {
+  color: #333;
+  font-size: 16px;
+}
+nav ul li:last-child {
+  margin-right: 0;
+}
+nav ul .check {
+  background: #80C4AE;
+  color: #fff;
+}
+nav ul .check a {
+  color: #fff;
+  font-size: 16px;
+}
+nav div.search {
+  display: inline-block;
+  margin-left: 120px;
+  border: 1px solid #80C4AE;
+  border-radius: 3px;
+  width: 280px;
+  height: 36px;
+  text-align: center;
+  font-size: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  position: relative;
+}
+nav div.search .left {
+  width: 69px;
+  height: 36px;
+  border-right: 1px solid #80C4AE;
+  font-size: 14px;
+  text-align: center;
+  line-height: 36px;
+  float: left;
+  color: #80C4AE;
+  padding: 0;
+}
+nav div.search .left i {
+  margin-left: 6px;
+  font-size: 5px;
+}
+nav div.search input {
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 36px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+nav div.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 7px;
+  top: 8px;
+}
+nav .login {
+  margin-left: 24px;
+  display: inline-block;
+  color: #80C4AE;
+  font-size: 14px;
+}
+nav .user {
+  display: inline-block;
+  margin-left: 24px;
+}
+nav .user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+nav .main .user {
+  position: relative;
+}
+nav .main .user .userlist {
+  width: 122px;
+  height: 269px;
+  background: url('../img/login/jx.png') no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 35px;
+  right: -15px;
+  display: none;
+  z-index: 99999;
+}
+nav .main .user .userlist ul {
+  width: 122px;
+  height: 100%;
+  padding-top: 30px;
+  margin-left: 0;
+}
+nav .main .user .userlist ul li {
+  font-size: 16px;
+  color: #333;
+  line-height: 30px;
+  height: 40px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+nav .main .user .userlist ul li:hover {
+  background: none;
+}
+nav .main .user .userlist ul li:last-child {
+  color: #666;
+}
+nav .main .user:hover .userlist {
+  display: block;
+}
+main .banner {
+  width: 1180px;
+  height: 350px;
+  margin: 0 auto;
+  margin-top: 23px;
+  position: relative;
+}
+main .banner .img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+main .banner .img li {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+main .banner .img li.active {
+  opacity: 1;
+}
+main .banner .img li img {
+  width: 100%;
+  height: 100%;
+}
+main .banner .list {
+  width: 198px;
+  height: 250px;
+  background: #000000;
+  border-radius: 4px;
+  opacity: 0.5;
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  line-height: 20px;
+  box-sizing: border-box;
+  padding-top: 29px;
+}
+main .banner .list li {
+  padding-left: 33px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #E4E4E4;
+  line-height: 20px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+main .banner .list li.high {
+  color: #71FFDE;
+  opacity: 1;
+  background: url(../img/index/left.png) no-repeat 20px 6px;
+}
+main .online {
+  width: 1180px;
+  margin: 44px auto 0;
+}
+main .online .title {
+  height: auto;
+}
+main .online .title span {
+  width: 80px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  line-height: 28px;
+  display: inline-block;
+  vertical-align: middle;
+}
+main .online .title span.line {
+  width: 6px;
+  height: 20px;
+  background: #74C6B3;
+  margin-right: 10px;
+}
+main .online .title span.more {
+  display: block;
+  float: right;
+  margin-right: 11px;
+  width: auto;
+  color: #74C6B3;
+}
+main .online .title span.more i {
+  margin-left: 11px;
+}
+main .online .onlineCont {
+  width: 1180px;
+  height: auto;
+}
+main .online .onlineCont div.content {
+  width: 1180px;
+  margin: 20px auto 0;
+}
+main .online .onlineCont div.content ul li {
+  width: 280px;
+  height: 225px;
+  box-shadow: 0 2px 3px #dad6d6;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+  float: left;
+}
+main .online .onlineCont div.content ul li:nth-child(4n) {
+  margin-right: 0;
+}
+main .online .onlineCont div.content ul li .top {
+  width: 280px;
+  height: 163px;
+  vertical-align: top;
+  overflow: hidden;
+}
+main .online .onlineCont div.content ul li .top .rj {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px 0px 12px 0px;
+  background: #000000;
+  color: #000;
+  display: block;
+  width: 71px;
+  height: 33px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.3;
+}
+main .online .onlineCont div.content ul li .top img.m {
+  width: 280px;
+  height: 163px;
+}
+main .online .onlineCont div.content ul li .top > p {
+  position: absolute;
+  bottom: 63px;
+  left: 0;
+  width: 100%;
+  height: 33px;
+  line-height: 33px;
+  font-size: 14px;
+  background: #000000;
+  color: #fff;
+  padding-left: 10px;
+  opacity: 0.3;
+}
+main .online .onlineCont div.content ul li .bottom {
+  width: 100%;
+  height: 62px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+main .online .onlineCont div.content ul li .bottom .left {
+  float: left;
+}
+main .online .onlineCont div.content ul li .bottom .left span {
+  display: block;
+}
+main .online .onlineCont div.content ul li .bottom .left span.time {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7A7A7A;
+}
+main .online .onlineCont div.content ul li .bottom .right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 5px;
+  width: 86px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+  background: #74C6B3;
+  text-align: center;
+  border-radius: 4px;
+}
+main .online .onlineCont div.content ul::after {
+  display: block;
+  content: '';
+  clear: both;
+  zoom: 1;
+}
+main .contBanner {
+  width: 1180px;
+  height: 186px;
+  margin: 31px auto 0;
+}
+main .contBanner img {
+  width: 100%;
+  height: 100%;
+}
+main .testClass {
+  width: 1180px;
+  margin: 44px auto 0;
+}
+main .testClass .title {
+  height: auto;
+}
+main .testClass .title span {
+  width: 80px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  line-height: 28px;
+  display: inline-block;
+  vertical-align: middle;
+}
+main .testClass .title span.line {
+  width: 6px;
+  height: 20px;
+  background: #74C6B3;
+  margin-right: 10px;
+}
+main .testClass .title span.more {
+  display: block;
+  float: right;
+  margin-right: 11px;
+  width: auto;
+  color: #74C6B3;
+}
+main .testClass .title span.more i {
+  margin-left: 11px;
+}
+main .testClass .onlineCont {
+  width: 1180px;
+  height: auto;
+}
+main .testClass .onlineCont div.content {
+  width: 1180px;
+  margin: 20px auto 0;
+}
+main .testClass .onlineCont div.content ul li {
+  width: 280px;
+  height: 225px;
+  box-shadow: 0 2px 3px #dad6d6;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+  float: left;
+}
+main .testClass .onlineCont div.content ul li:nth-child(4n) {
+  margin-right: 0;
+}
+main .testClass .onlineCont div.content ul li .top {
+  width: 280px;
+  height: 163px;
+  vertical-align: top;
+  overflow: hidden;
+}
+main .testClass .onlineCont div.content ul li .top .rj {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px 0px 12px 0px;
+  background: #000000;
+  color: #000;
+  display: block;
+  width: 71px;
+  height: 33px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.3;
+}
+main .testClass .onlineCont div.content ul li .top img.m {
+  width: 280px;
+  height: 163px;
+}
+main .testClass .onlineCont div.content ul li .top > p {
+  position: absolute;
+  bottom: 63px;
+  left: 0;
+  width: 100%;
+  height: 33px;
+  line-height: 33px;
+  font-size: 14px;
+  background: #000000;
+  color: #fff;
+  padding-left: 10px;
+  opacity: 0.3;
+}
+main .testClass .onlineCont div.content ul li .bottom {
+  width: 100%;
+  height: 62px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+main .testClass .onlineCont div.content ul li .bottom .left {
+  float: left;
+}
+main .testClass .onlineCont div.content ul li .bottom .left span {
+  display: block;
+}
+main .testClass .onlineCont div.content ul li .bottom .left span.time {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7A7A7A;
+}
+main .testClass .onlineCont div.content ul li .bottom .right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 5px;
+  width: 86px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+  background: #74C6B3;
+  text-align: center;
+  border-radius: 4px;
+}
+main .testClass .onlineCont div.content ul::after {
+  display: block;
+  content: '';
+  clear: both;
+  zoom: 1;
+}
+main .testClass .onlineCont div.content ul li {
+  width: 379px;
+  height: 224px;
+  overflow: hidden;
+}
+main .testClass .onlineCont div.content ul li .top {
+  width: 379px;
+  height: 163px;
+}
+main .testClass .onlineCont div.content ul li .top img.m {
+  width: 100%;
+  height: 163px;
+}
+main .testClass .onlineCont div.content ul li .top p {
+  padding-right: 28px;
+}
+main .testClass .onlineCont div.content ul li .top span:nth-child(1) {
+  display: block;
+  float: right;
+  font-size: 12px;
+}
+main .testClass .onlineCont div.content ul li .top span:nth-child(2) {
+  display: block;
+  float: left;
+}
+main .testClass .onlineCont div.content ul li .bottom div.left {
+  width: 140px;
+}
+main .testClass .onlineCont div.content ul li:nth-child(3n) {
+  margin-right: 0;
+}
+main .testClass .onlineCont div.content ul li:nth-child(4n) {
+  margin-right: 20px;
+}
+main .goodClass {
+  width: 1180px;
+  margin: 44px auto 0;
+}
+main .goodClass .title {
+  height: auto;
+}
+main .goodClass .title span {
+  width: 80px;
+  height: 28px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  line-height: 28px;
+  display: inline-block;
+  vertical-align: middle;
+}
+main .goodClass .title span.line {
+  width: 6px;
+  height: 20px;
+  background: #74C6B3;
+  margin-right: 10px;
+}
+main .goodClass .title span.more {
+  display: block;
+  float: right;
+  margin-right: 11px;
+  width: auto;
+  color: #74C6B3;
+}
+main .goodClass .title span.more i {
+  margin-left: 11px;
+}
+main .goodClass .onlineCont {
+  width: 1180px;
+  height: auto;
+}
+main .goodClass .onlineCont div.content {
+  width: 1180px;
+  margin: 20px auto 0;
+}
+main .goodClass .onlineCont div.content ul li {
+  width: 280px;
+  height: 225px;
+  box-shadow: 0 2px 3px #dad6d6;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+  float: left;
+}
+main .goodClass .onlineCont div.content ul li:nth-child(4n) {
+  margin-right: 0;
+}
+main .goodClass .onlineCont div.content ul li .top {
+  width: 280px;
+  height: 163px;
+  vertical-align: top;
+  overflow: hidden;
+}
+main .goodClass .onlineCont div.content ul li .top .rj {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px 0px 12px 0px;
+  background: #000000;
+  color: #000;
+  display: block;
+  width: 71px;
+  height: 33px;
+  font-size: 14px;
+  line-height: 33px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.3;
+}
+main .goodClass .onlineCont div.content ul li .top img.m {
+  width: 280px;
+  height: 163px;
+}
+main .goodClass .onlineCont div.content ul li .top > p {
+  position: absolute;
+  bottom: 63px;
+  left: 0;
+  width: 100%;
+  height: 33px;
+  line-height: 33px;
+  font-size: 14px;
+  background: #000000;
+  color: #fff;
+  padding-left: 10px;
+  opacity: 0.3;
+}
+main .goodClass .onlineCont div.content ul li .bottom {
+  width: 100%;
+  height: 62px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+  padding-left: 10px;
+}
+main .goodClass .onlineCont div.content ul li .bottom .left {
+  float: left;
+}
+main .goodClass .onlineCont div.content ul li .bottom .left span {
+  display: block;
+}
+main .goodClass .onlineCont div.content ul li .bottom .left span.time {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7A7A7A;
+}
+main .goodClass .onlineCont div.content ul li .bottom .right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 5px;
+  width: 86px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+  background: #74C6B3;
+  text-align: center;
+  border-radius: 4px;
+}
+main .goodClass .onlineCont div.content ul::after {
+  display: block;
+  content: '';
+  clear: both;
+  zoom: 1;
+}
+main .goodClass .onlineCont div.content {
+  width: 884px;
+  float: left;
+}
+main .goodClass .onlineCont div.content ul li {
+  overflow: hidden;
+}
+main .goodClass .onlineCont div.content ul li:nth-child(3n) {
+  margin-right: 0;
+}
+main .goodClass .onlineCont div.content ul li:nth-child(4n) {
+  margin-right: 20px;
+}
+main .goodClass .onlineCont div.rightCont {
+  width: 296px;
+  height: 487px;
+  float: left;
+  margin-top: 20px;
+  overflow: hidden;
+}
+main .goodClass .onlineCont div.rightCont img {
+  width: 296px;
+  height: 487px;
+  margin-top: -6px;
+}
+main .goodClass .onlineCont::after {
+  display: block;
+  content: '';
+  clear: both;
+  zoom: 1;
+}
+main .footB {
+  width: 1180px;
+  height: 186px;
+  margin: 31px auto 0;
+  overflow: hidden;
+  margin-top: 19px;
+  height: 100px;
+}
+main .footB img {
+  width: 100%;
+  height: 100%;
+}
+main .footB div {
+  width: 380px;
+  height: 100px;
+  margin-right: 20px;
+  float: left;
+}
+main .footB div:last-child {
+  margin-right: 0;
+}
+main div.fix {
+  position: fixed;
+  width: 70px;
+  height: 220px;
+  bottom: 10px;
+}
+main div.fix .lesson {
+  width: 70px;
+  height: 70px;
+}
+main div.fix .test {
+  margin: 5px auto;
+}
+main div.fix img {
+  width: 70px;
+  height: 70px;
+}
+footer {
+  width: 100%;
+  height: 264px;
+  background: #333;
+  margin-top: 36px;
+  padding-top: 87px;
+}
+footer .cont {
+  width: 1180px;
+  height: 100%;
+  margin: 0 auto;
+}
+footer .cont .main {
+  width: 1153px;
+  height: 90px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  margin: 0 auto;
+}
+footer .cont .main p {
+  margin-top: 5px;
+}

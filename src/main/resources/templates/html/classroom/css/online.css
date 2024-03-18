@@ -1,0 +1,501 @@
+@import 'public.css';
+.clearfix {
+  display: block;
+  content: '';
+  clear: both;
+}
+nav {
+  width: 100%;
+  height: 80px;
+  background: #fff;
+  box-shadow: 0 2px 3px #dad6d6;
+  vertical-align: top;
+}
+nav .main {
+  width: 1180px;
+  margin: 0 auto;
+}
+nav .main ul li:hover {
+  background: #80C4AE;
+  color: #fff;
+}
+nav .main ul li:hover a {
+  color: #fff;
+  font-size: 16px;
+}
+nav .logo {
+  width: 179px;
+  height: 53px;
+  margin: 13px 0 14px 0;
+}
+nav ul {
+  display: inline-block;
+  margin-left: 120px;
+  border: none;
+  font-size: 0;
+}
+nav ul li {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  margin-right: 17px;
+  text-align: center;
+}
+nav ul li a {
+  color: #333;
+  font-size: 16px;
+}
+nav ul li:last-child {
+  margin-right: 0;
+}
+nav ul .check {
+  background: #80C4AE;
+  color: #fff;
+}
+nav ul .check a {
+  color: #fff;
+  font-size: 16px;
+}
+nav div.search {
+  display: inline-block;
+  margin-left: 120px;
+  border: 1px solid #80C4AE;
+  border-radius: 3px;
+  width: 280px;
+  height: 36px;
+  text-align: center;
+  font-size: 0;
+  padding: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  position: relative;
+}
+nav div.search .left {
+  width: 69px;
+  height: 36px;
+  border-right: 1px solid #80C4AE;
+  font-size: 14px;
+  text-align: center;
+  line-height: 36px;
+  float: left;
+  color: #80C4AE;
+  padding: 0;
+}
+nav div.search .left i {
+  margin-left: 6px;
+  font-size: 5px;
+}
+nav div.search input {
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 36px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+}
+nav div.search img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 7px;
+  top: 8px;
+}
+nav .login {
+  margin-left: 24px;
+  display: inline-block;
+  color: #80C4AE;
+  font-size: 14px;
+}
+nav .user {
+  display: inline-block;
+  margin-left: 24px;
+  display: none;
+}
+nav .user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+nav .main .user {
+  position: relative;
+}
+nav .main .user .userlist {
+  width: 122px;
+  height: 269px;
+  background: url('../img/login/jx.png') no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 35px;
+  right: -15px;
+  display: none;
+  z-index: 99999;
+}
+nav .main .user .userlist ul {
+  width: 122px;
+  height: 100%;
+  padding-top: 30px;
+  margin-left: 0;
+}
+nav .main .user .userlist ul li {
+  font-size: 16px;
+  color: #333;
+  line-height: 30px;
+  height: 40px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+}
+nav .main .user .userlist ul li:hover {
+  background: none;
+}
+nav .main .user .userlist ul li:last-child {
+  color: #666;
+}
+nav .main .user:hover .userlist {
+  display: block;
+}
+footer {
+  width: 100%;
+  height: 264px;
+  background: #333;
+  margin-top: 36px;
+  padding-top: 87px;
+}
+footer .cont {
+  width: 1180px;
+  height: 100%;
+  margin: 0 auto;
+}
+footer .cont .main {
+  width: 1153px;
+  height: 90px;
+  color: #ccc;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  margin: 0 auto;
+}
+footer .cont .main p {
+  margin-top: 5px;
+}
+.pos {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 99999999;
+}
+.pos .login {
+  width: 520px;
+  height: 522px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  padding-top: 30px;
+}
+.pos .login span.close {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  color: #999;
+  z-index: 9999;
+  font-size: 20px;
+}
+.pos .login img {
+  width: 136px;
+  height: 40px;
+  margin-bottom: 46px;
+}
+.pos .login ul {
+  padding-left: 20px;
+}
+.pos .login ul::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.pos .login ul li {
+  width: 134px;
+  height: 1px;
+  float: left;
+  border-top: 1px solid #ececec;
+  margin-top: 12px;
+}
+.pos .login ul li.phone {
+  float: left;
+  width: 162px;
+  height: 25px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 25px;
+  border: none;
+  margin: 0 18px;
+  margin-bottom: 21px;
+}
+.pos .login input {
+  display: block;
+  margin-left: 110px;
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #80C4AE;
+  padding-left: 24px;
+  margin-bottom: 20px;
+}
+.pos .login .loginbtn {
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #80C4AE;
+  background: #74C6B3;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 10px;
+}
+.pos .login p {
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 36px;
+}
+.pos .login p::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.pos .login p span {
+  display: inline-block;
+  color: #333;
+  font-size: 12px;
+}
+.pos .login p span:first-child {
+  float: left;
+}
+.pos .login p span:last-child {
+  float: right;
+}
+.pos .login p span a {
+  font-size: 12px;
+  color: #74C6B3;
+}
+.pos .login p.getCenter {
+  display: block;
+}
+.pos .login p.getCenter img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.pos .login p.getCenter img:nth-child(2) {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+main {
+  width: 1180px;
+  margin: 0 auto;
+  margin-top: 22px;
+}
+main .row {
+  min-height: 60px;
+  line-height: 40px;
+  color: #333;
+  font-size: 16px;
+  vertical-align: middle;
+  width: 1180px;
+  height: auto;
+}
+main .row .left {
+  float: left;
+  font-weight: Semibold;
+  margin-right: 10px;
+  color: #222;
+  width: 80px;
+}
+main .row .right {
+  float: left;
+  width: 1090px;
+}
+main .row .right span {
+  width: 180px;
+  height: 40px;
+  border: 1px solid #80C4AE;
+  border-radius: 4px;
+  display: inline-block;
+  padding-left: 18px;
+  color: #666;
+  position: relative;
+  font-size: 14px;
+  margin-left: 22px;
+  cursor: pointer;
+}
+main .row .right span i {
+  color: #80C4AE;
+  position: absolute;
+  right: 13px;
+}
+main .row .right ul {
+  margin-left: 35px;
+}
+main .row .right ul li {
+  display: inline-block;
+  margin-right: 50px;
+  color: #666;
+  width: 52px;
+  text-align: center;
+  font-size: 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+main .row .right ul li a.active {
+  background: #80C4AE;
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px 5px;
+}
+main .row::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+main .lesson {
+  width: 1180px;
+  margin: 20px auto 0;
+}
+main .lesson ul li {
+  width: 380px;
+  height: 256px;
+  box-shadow: 0 2px 5px #dad6d6;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+  float: left;
+  cursor: pointer;
+}
+main .lesson ul li:nth-child(3n) {
+  margin-right: 0;
+}
+main .lesson ul li .top {
+  width: 380px;
+  height: 196px;
+  vertical-align: top;
+  overflow: hidden;
+}
+main .lesson ul li .top img.m {
+  width: 380px;
+  height: 196px;
+}
+main .lesson ul li .top > p {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 33px;
+  line-height: 33px;
+  font-size: 14px;
+  background: #000000;
+  color: #fff;
+  padding-left: 10px;
+  opacity: 0.3;
+}
+main .lesson ul li .bottom {
+  width: 100%;
+  height: 62px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 7px;
+  padding-left: 14px;
+}
+main .lesson ul li .bottom .left {
+  float: left;
+}
+main .lesson ul li .bottom .left span {
+  display: block;
+}
+main .lesson ul li .bottom .left span.time {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #7A7A7A;
+}
+main .lesson ul li .bottom .right {
+  float: right;
+  margin-top: 12px;
+  margin-right: 14px;
+  width: 86px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+  background: #74C6B3;
+  text-align: center;
+  border-radius: 4px;
+}
+main .lesson ul::after {
+  display: block;
+  content: '';
+  clear: both;
+  zoom: 1;
+}
+main .pageNum {
+  width: 1180px;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+}
+main .pageNum ul {
+  text-align: center;
+  line-height: 25px;
+  font-size: 18px;
+  display: inline-block;
+}
+main .pageNum ul li {
+  display: inline-block;
+  width: 37px;
+  height: 40px;
+  padding: 9px 14px 6px;
+  color: #333;
+  background: #ededed;
+  border-radius: 4px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  margin-right: 12px;
+}
+main .pageNum ul li.active {
+  background: #80C4AE;
+  color: #fff;
+}
+main .pageNum button {
+  width: 91px;
+  height: 40px;
+  outline: none;
+  border: none;
+  background: #ededed;
+  font-size: 18px;
+  color: #a4a4a4;
+  padding: 9px 19px 6px 18px;
+  border-radius: 4px;
+  margin: 0 28px;
+  font-family: PingFangSC-Semibold, PingFang SC;
+}
+main .pageNum button.active {
+  color: #333;
+}
+main .pageNum button:last-child {
+  margin-left: 8px;
+}

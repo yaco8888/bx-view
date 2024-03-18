@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>系统登录</title>
+    <link rel="stylesheet" href="../../../statics/node_modules/element-ui/lib/theme-chalk/index.css" />
+    <script type="text/javascript" src="../../../statics/system/vue/vue-v2.6.10.js"></script>
+    <script type="text/javascript" src="../../../statics/node_modules/element-ui/lib/index.js"></script>
+    <script type="text/javascript" src="../../../statics/system/vue/axios-0.18.0.js"></script>
+    <style type="text/css">
+      html {
+        overflow-y: scroll;
+        vertical-align: baseline;
+      }
+
+      .el-form-item__label {
+        color: #fff;
+        text-align: center;
+        width: 70px !important;
+      }
+      .el-form-item__content {
+        margin-left: 70px !important;
+      }
+      .el-form-item__error {
+        padding-top: 0px;
+      }
+      .head_box {
+        width: 120px;
+        height: 120px;
+        padding: 5px;
+        border: 3px solid #eee;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #ddd;
+        /* position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%); */
+        background-color: #fff;
+        margin: 0 auto;
+      }
+      .head_box img {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 50%;
+      }
+
+      body {
+        font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana, sans-serif;
+        font-size: 12px;
+        color: #fff;
+        height: 100%;
+        line-height: 1;
+        background: #999;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      ul,
+      li {
+        list-style: none;
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        margin-bottom: 15px;
+      }
+
+      .login-box {
+        width: 410px;
+        margin: 120px auto 0 auto;
+        /* text-align: center; */
+        padding: 40px 20px;
+        /* padding-left: 0px; */
+        background: url(../../../statics/system/img/mask.png);
+        border-radius: 10px;
+      }
+
+      .login-box .name,
+      .login-box .password,
+      .login-box .code,
+      .login-box .remember {
+        font-size: 16px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-box .remember input {
+        box-shadow: none;
+        width: 15px;
+        height: 15px;
+        margin-top: 25px;
+      }
+
+      .login-box .remember {
+        padding-left: 40px;
+      }
+
+      .login-box .remember label {
+        display: inline-block;
+        height: 42px;
+        width: 70px;
+        line-height: 34px;
+        text-align: left;
+      }
+
+      .login-box label {
+        display: inline-block;
+        width: 100px;
+        text-align: right;
+        vertical-align: middle;
+      }
+
+      .login-box #code {
+        width: 120px;
+      }
+
+      .login-box .codeImg {
+        float: right;
+        height: 40px;
+      }
+      .login-box .codeImg img {
+        cursor: pointer;
+      }
+
+      .login-box img {
+        width: 148px;
+        height: 40px;
+        border: none;
+      }
+
+      button {
+        cursor: pointer;
+        width: 100%;
+        height: 44px;
+        padding: 0;
+        background: #ef4300;
+        border: 1px solid #ff730e;
+        border-radius: 6px;
+        font-weight: 700;
+        color: #fff;
+        font-size: 24px;
+        letter-spacing: 15px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      button:hover {
+        box-shadow: 0 15px 30px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 7px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .screenbg {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: -999;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+      }
+
+      .screenbg ul li {
+        display: block;
+        list-style: none;
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1000;
+        float: right;
+      }
+
+      .screenbg ul a {
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        cursor: default;
+      }
+
+      .screenbg a img {
+        display: inline;
+        border: none;
+        display: block;
+        list-style: none;
+        position: fixed;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1000;
+        float: right;
+      }
+
+      .bottom {
+        margin: 8px auto 0 auto;
+        width: 100%;
+        position: fixed;
+        text-align: center;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        padding-bottom: 8px;
+        color: #ccc;
+        word-spacing: 3px;
+        zoom: 1;
+      }
+
+      .bottom a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .bottom a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="login-box">
+        <!-- <h1>优学管理系统</h1> -->
+        <div class="head_box">
+          <img src="../../../statics/system/img/11.jpg" alt="" />
+        </div>
+        <div style="color: red; margin-bottom: 10px"></div>
+        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="ruleForm.username" autocomplete="off" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="ruleForm.password" autocomplete="off" clearable></el-input>
+          </el-form-item>
+<!--          <el-form-item label="验证码" prop="imageCode">-->
+<!--            <el-input v-model.number="ruleForm.imageCode" autocomplete="off" style="width: 160px" clearable></el-input>-->
+<!--            <div class="codeImg">-->
+<!--              <img :src="msg" @click="getCode" />-->
+<!--            </div>-->
+<!--          </el-form-item>-->
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="screenbg">
+        <ul>
+          <li>
+            <a href="javascript:;"><img src="../../../statics/system/img/01.jpg" /></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script>
+    axios.defaults.withCredentials = true
+    new Vue({
+      el: '#app',
+      data: {
+        // 请求生成验证码的工具类
+        msg: 'http://localhost:8080/maven_test/code',
+        ruleForm: {
+          username: '',
+          password: '',
+          imageCode: ''
+        },
+        rules: {
+          username: [
+            { required: true, message: '请输入用户名称', trigger: 'blur' },
+            { min: 3, max: 11, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ],
+          password: [
+            {
+              required: true,
+              message: '请输入密码',
+              trigger: 'blur'
+            },
+            {
+              min: 6,
+              max: 30,
+              message: '长度在 6 到 30 个字符'
+            },
+            {
+              pattern: /^(\w){6,20}$/,
+              message: '只能输入6-20个字母、数字、下划线'
+            }
+          ],
+          imageCode: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+        }
+      },
+      methods: {
+        // 获取验证码
+        getCode() {
+          // 重新msg赋值
+          this.msg = 'http://localhost:8080/maven_test/code?date=' + new Date()
+        },
+        // 登录提交表单
+        submitForm(refName) {
+          this.$refs.ruleForm.validate(valid => {
+            if (valid) {
+              //   alert('验证成功')
+              //开始通过axios请求后台   用户名、密码、验证码、mark
+              //通过对象去组装参数
+              var params = new URLSearchParams()
+              params.append('username', this.ruleForm.username)
+              params.append('password', this.ruleForm.password)
+              params.append('code', this.ruleForm.imageCode)
+              params.append('mark', 'adminLogin')
+              axios({
+                url: 'http://localhost:8080/maven_test/userServlet',
+                method: 'post',
+                data: params,
+                responseType: 'json'
+              })
+                .then(res => {
+                  console.log(res)
+                  if (res.data.code === 200) {
+                    this.$message.success(res.data.message)
+                    setTimeout(() => {
+                      location.href = 'index.html'
+                    }, 1000)
+                  } else {
+                    this.$message.error(res.data.message)
+                  }
+                })
+                .catch(err => {
+                  //   console.log(err)
+                  this.$message.error('代码出错')
+                })
+            } else {
+              //   alert('失败')
+              this.$message.error('表单验证失败')
+            }
+          })
+        }
+      },
+      updated() {}
+    })
+  </script>
+</html>
