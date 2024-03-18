@@ -1,122 +1,234 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="utf-8" />
-		<title>后台</title>
-		<meta name="description" content="blank page" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" th:href="@{/static/assets/images/favicon.png}" type="image/png}">
+    <title>Home</title>
 
-		<link rel="stylesheet" th:href="@{/static/node_modules/element-ui/lib/theme-chalk/index.css}" />
-		<script type="text/javascript" th:src="@{/static/system/vue/vue-v2.6.10.js}"></script>
-		<script type="text/javascript" th:src="@{/static/node_modules/element-ui/lib/index.js}"></script>
-		<script type="text/javascript" th:src="@{/static/system/vue/axios-0.18.0.js}"></script>
-		<style>
-			body{
-				margin: 0px;
-			}
-			.el-header{
-				height: 57px !important;
-			}
-			.el-header,
-			.el-footer {
-				background-image: url("/static/system/img/ba1.png");
-				background-repeat: no-repeat;
-				background-size: 100%;
-				color: #000;
-				text-align: center;
-				line-height: 60px;
-				font-size: 25px;
-				font-weight: 400;
-			}
-			
-			.el-aside {
-				background-color: rgb(232, 233, 238);
-				color: #5C637B;
-				text-align: left;
-				line-height: 200px;
-				height: 840px;
-			}
-			
-			.el-main {
-				background-color: #E9EEF3;
-				color: #333;
-				text-align: center;
-				line-height: 160px;
-			}
-			
-			a {
-				/*设置超链接的颜色和 删除下划线*/
-				text-decoration: none;
-				display: block;
-			}
-			
-			.el-menu-item a {
-				color: #5C637B;
-			}
-			.el-menu-item:hover a,
-			.el-menu-item.is-active a {
-				color: #0073CC;
-				font-size: 20px;
-			}
-		</style>
-	</head>
+    <!--Begin  Page Level  CSS -->
+    <link th:href="@{/static/assets/plugins/morris-chart/morris.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/plugins/jquery-ui/jquery-ui.min.css}" rel="stylesheet"/>
+    <!--End  Page Level  CSS -->
+    <link th:href="@{/static/assets/css/icons.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/responsive.css}" rel="stylesheet">
 
-	<body>
-		<div id="app">
-			<el-container>
-				<el-header>
-					<div style="float: left;">课堂管理系统</div>
-					<div style="float: right;font-size: 17px;">
-						<el-link type="success" :underline="false" style="font-size: 17px;">返回前台</el-link>
-<!--						欢迎您:<span>{{user.name}}</span>-->
-						<el-link type="primary" style="font-size: 17px;"  @click="userBack" :underline="false">退出</el-link>
-					</div>
-				</el-header>
-				<el-container>
-					<el-aside width="200px">
-						<el-menu default-active="2" style="font-size: 12px;" class="el-menu-vertical-demo"  background-color="rgb(232,233,238)" text-color="rgb(99,103,117)" active-text-color="#0073CC">
-							<el-menu-item index="1-2">
-								<a href="/admin/course" target="main">任务发布</a>
-							</el-menu-item>
-						</el-menu>
-					</el-aside>
-					<el-main style="padding: 0px;">
-						<iframe name="main" width="100%" height="100%" frameborder="0"></iframe>
-					</el-main>
-				</el-container>
-			</el-container>
-		</div>
+</head>
 
-	</body>
-	<script type="text/javascript" th:inline="javascript">
-		/*<![CDATA[*/
-		var contextPath = [[@{/}]];
-		/*]]>*/
-	</script>
-	<script>
-		axios.defaults.withCredentials = true
-		new Vue({
-			el: "#app",
-			data: {
-				user:''
-			},
-			methods: {
-				userBack() {
-					axios.get('http://localhost/out').then(res => {
-						window.location.href = contextPath + 'admin';
-					}).catch(err => {
-						this.$message.error('获取session中的用户名出现异常')
-					})
-				}
-			},
-			created() {
+<body class="sticky-header">
 
-			},
-			
-		})
-	</script>
+
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+
+    <!--logo-->
+    <div class="logo">
+        <a><img th:src="@{/static/assets/images/logo.png}" alt=""></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a><img th:src="@{/static/assets/images/logo-icon.png}" alt=""></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <ul class="nav nav-pills nav-stacked custom-nav">
+            <li><a><i class="icon-note"></i> <span>发布课程</span></a></li>
+        </ul>
+        <!--End sidebar nav-->
+
+    </div>
+</div>
+<!--End left side menu-->
+
+
+<!-- main content start-->
+<div class="main-content">
+
+    <!-- header section start-->
+    <div class="header-section">
+
+        <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+
+        <!--notification menu start -->
+        <div class="menu-right">
+            <ul class="notification-menu">
+                <li>
+                    <a th:href="@{/static#}" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img th:src="@{/static/assets/images/users/avatar-6.jpg}" alt=""/>
+                        管理员
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a href="/out"> <i class="fa fa-lock"></i> Logout </a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <!--notification menu end -->
+
+    </div>
+    <!-- header section end-->
+
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+
+        <!-- Start inbox widget-->
+        <div class="col-md-12">
+            <div class="white-box">
+                <h2 class="header-title"> Projects </h2>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Name</th>
+                            <th>Start Date</th>
+                            <th>Deadline Date</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Design new theme</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-warning">Pending</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Website Redesign</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-success">In Progress</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Mockup Design</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-warning">Pending</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-primary" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Admin Panel design</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-success">In Progress</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Front End Design</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-danger">On Hold</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-danger" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Software Testing</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-success">In Progress</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Admin Panel design</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-danger">On Hold</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-danger" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Website Redesign</td>
+                            <td>10/10/2016</td>
+                            <td>12/11/2016</td>
+                            <td><span class="label label-warning">Pending</span></td>
+                            <td>
+                                <div class="progress progress-striped progress-sm">
+                                    <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <!-- Start inbox widget-->
+    </div>
+    <!--End row-->
+
+</div>
+<!-- End Wrapper-->
+
+</div>
+<!--End main content -->
+
+
+<!--Begin core plugin -->
+<script th:src="@{/static/assets/js/jquery.min.js}"></script>
+<script th:src="@{/static/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/assets/plugins/moment/moment.js}"></script>
+<script th:src="@{/static/assets/js/jquery.slimscroll.js}"></script>
+<script th:src="@{/static/assets/js/jquery.nicescroll.js}"></script>
+<script th:src="@{/static/assets/js/functions.js}"></script>
+<!-- End core plugin -->
+
+<!--Begin Page Level Plugin-->
+<script th:src="@{/static/assets/plugins/morris-chart/morris.js}"></script>
+<script th:src="@{/static/assets/plugins/morris-chart/raphael-min.js}"></script>
+<script th:src="@{/static/assets/plugins/jquery-sparkline/jquery.charts-sparkline.js}"></script>
+<script th:src="@{/static/assets/pages/dashboard.js}"></script>
+<!--End Page Level Plugin-->
+
+
+</body>
 
 </html>
