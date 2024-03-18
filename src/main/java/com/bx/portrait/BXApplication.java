@@ -7,6 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @ClassName BXApplication
@@ -15,7 +17,7 @@ import org.springframework.context.annotation.Bean;
  * @Version 1.0
  */
 @SpringBootApplication
-public class BXApplication extends SpringBootServletInitializer {
+public class BXApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
     public static void main(String[] args) {
         SpringApplication.run(BXApplication.class, args);
@@ -35,5 +37,14 @@ public class BXApplication extends SpringBootServletInitializer {
         registrationBean.setFilter(new LoginFilter());
         registrationBean.addUrlPatterns("/admin/*"); // 设置过滤路径，比如只拦截以 /admin/ 开头的路径
         return registrationBean;
+    }
+
+    /**
+     * 重写资源配置路径
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 }

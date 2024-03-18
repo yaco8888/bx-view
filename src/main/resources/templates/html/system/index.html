@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" href="../../../statics/node_modules/element-ui/lib/theme-chalk/index.css" />
-		<script type="text/javascript" src="../../../statics/system/vue/vue-v2.6.10.js"></script>
-		<script type="text/javascript" src="../../../statics/node_modules/element-ui/lib/index.js"></script>
-		<script type="text/javascript" src="../../../statics/system/vue/axios-0.18.0.js"></script>
+		<meta charset="utf-8" />
+		<title>后台</title>
+		<meta name="description" content="blank page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<link rel="stylesheet" th:href="@{/static/node_modules/element-ui/lib/theme-chalk/index.css}" />
+		<script type="text/javascript" th:src="@{/static/system/vue/vue-v2.6.10.js}"></script>
+		<script type="text/javascript" th:src="@{/static/node_modules/element-ui/lib/index.js}"></script>
+		<script type="text/javascript" th:src="@{/static/system/vue/axios-0.18.0.js}"></script>
 		<style>
 			body{
 				margin: 0px;
@@ -17,7 +22,7 @@
 			}
 			.el-header,
 			.el-footer {
-				background-image: url(../../../statics/system/img/ba1.png);
+				background-image: url("/static/system/img/ba1.png");
 				background-repeat: no-repeat;
 				background-size: 100%;
 				color: #000;
@@ -73,21 +78,9 @@
 				<el-container>
 					<el-aside width="200px">
 						<el-menu default-active="2" style="font-size: 12px;" class="el-menu-vertical-demo"  background-color="rgb(232,233,238)" text-color="rgb(99,103,117)" active-text-color="#0073CC">
-							<el-submenu index="1">
-								<template slot="title">
-									<i class="el-icon-location"></i>
-									<span>后台管理</span>
-								</template>
-								<el-menu-item-group>
-									<el-menu-item index="1-1">
-										<a href="User/index.html" target="main">学生管理</a>
-									</el-menu-item>
-									<el-menu-item index="1-2">
-										<a href="course/index.html" target="main">任务发布</a>
-									</el-menu-item>
-								</el-menu-item-group>
-								</el-menu-item-group>
-							</el-submenu>
+							<el-menu-item index="1-2">
+								<a href="/admin/course" target="main">任务发布</a>
+							</el-menu-item>
 						</el-menu>
 					</el-aside>
 					<el-main style="padding: 0px;">
@@ -98,6 +91,11 @@
 		</div>
 
 	</body>
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		var contextPath = [[@{/}]];
+		/*]]>*/
+	</script>
 	<script>
 		axios.defaults.withCredentials = true
 		new Vue({
@@ -106,25 +104,16 @@
 				user:''
 			},
 			methods: {
-				getSessionUser(){
-					axios.get('http://localhost:8080/maven_test/userServlet?mark=getSessionUser').then(res=>{
-						if(res.data.code === 200){
-								this.user = res.data.data
-						}
-					}).catch(_ => {
-						this.$message.error('获取session中的用户名出现异常')
-					})
-				},
 				userBack() {
-					axios.get('http://localhost:8080/maven_test/userServlet?mark=removeSessionUser').then(res => {
-						location.href = "login.html"
+					axios.get('http://localhost/out').then(res => {
+						window.location.href = contextPath + 'admin';
 					}).catch(err => {
 						this.$message.error('获取session中的用户名出现异常')
 					})
 				}
 			},
 			created() {
-				this.getSessionUser()
+
 			},
 			
 		})

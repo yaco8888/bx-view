@@ -14,7 +14,7 @@ import java.io.Serializable;
  * 课程视频(任务)层
  */
 @Data
-@TableName("/tb_course")
+@TableName("tb_course")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassRoom extends Model<ClassRoom> implements Serializable {
