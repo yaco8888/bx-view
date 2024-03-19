@@ -18,7 +18,15 @@
     <link th:href="@{/static/assets/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/static/assets/css/style.css}" rel="stylesheet">
     <link th:href="@{/static/assets/css/responsive.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/table/bootstrap-table.min.css}" rel="stylesheet">
 
+    <style>
+        .overflow-example {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 
 <body class="sticky-header">
@@ -85,118 +93,9 @@
         <!-- Start inbox widget-->
         <div class="col-md-12">
             <div class="white-box">
-                <h2 class="header-title"> Projects </h2>
+                <h2 class="header-title"> 课程管理 </h2>
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Project Name</th>
-                            <th>Start Date</th>
-                            <th>Deadline Date</th>
-                            <th>Status</th>
-                            <th>Progress</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Design new theme</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Website Redesign</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-success">In Progress</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Mockup Design</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-primary" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Admin Panel design</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-success">In Progress</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Front End Design</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-danger">On Hold</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-danger" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Software Testing</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-success">In Progress</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-success" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Admin Panel design</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-danger">On Hold</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-danger" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>Website Redesign</td>
-                            <td>10/10/2016</td>
-                            <td>12/11/2016</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>
-                                <div class="progress progress-striped progress-sm">
-                                    <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <table id="table" class="table table-hover overflow-example"></table>
                 </div>
 
             </div>
@@ -208,10 +107,36 @@
 </div>
 <!-- End Wrapper-->
 
+<!-- 查看视频地址模态框 -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 800px;position: relative;left:-200px;">
+            <div class="modal-header">
+                <h4 class="modal-title">地址信息</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body" >
+                <p id="id_url_value"></p>
+                <a id="id_url" href="" target="_blank">跳转</a>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">关 闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 <!--End main content -->
 
-
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var contextPath = [[@{/}]];
+    /*]]>*/
+</script>
 <!--Begin core plugin -->
 <script th:src="@{/static/assets/js/jquery.min.js}"></script>
 <script th:src="@{/static/assets/js/bootstrap.min.js}"></script>
@@ -222,12 +147,90 @@
 <!-- End core plugin -->
 
 <!--Begin Page Level Plugin-->
-<script th:src="@{/static/assets/plugins/morris-chart/morris.js}"></script>
-<script th:src="@{/static/assets/plugins/morris-chart/raphael-min.js}"></script>
+<!--<script th:src="@{/static/assets/plugins/morris-chart/morris.js}"></script>-->
+<!--<script th:src="@{/static/assets/plugins/morris-chart/raphael-min.js}"></script>-->
 <script th:src="@{/static/assets/plugins/jquery-sparkline/jquery.charts-sparkline.js}"></script>
-<script th:src="@{/static/assets/pages/dashboard.js}"></script>
-<!--End Page Level Plugin-->
+<!--<script th:src="@{/static/assets/pages/dashboard.js}"></script>-->
 
+<script th:src="@{/static/assets/table/bootstrap-table.min.js}"></script>
+<script th:src="@{/static/assets/table/bootstrap-table-zh-CN.js}"></script>
+<!--End Page Level Plugin-->
+<script>
+$(function () {
+    console.log(123123123123);
+    initTable();
+})
+
+function initTable() {
+    $('#table').bootstrapTable('destroy');
+    $('#table').bootstrapTable({
+        method : 'post',
+        //get方法使用默认的application/json
+        contentType : 'application/x-www-form-urlencoded',
+        url : contextPath + 'admin/list', // 路径
+        queryParams : function(parms){ // 参数
+            var parm = {
+                // name : name
+            }
+            return parm
+        },
+        dataType: 'json',			// 返回数据类型
+        locale:'zh-CN',				// 中文支持
+        showRefresh: false,			// 刷新按钮
+        showColumns: false,			// 显示列筛选
+        //sidePagination: 'server',	// 设置在哪里进行分页，可选值为 'client' 或者 'server'
+        uniqueId : '', 				// 绑定ID，对每一行指定唯一标识符
+        cache : false, 				// 设置为 false，禁用 AJAX 数据缓存， 默认为true
+        striped : false, 			// 表格显示条纹，默认为false
+        pagination : true, 			// 在表格底部显示分页组件，默认false
+        paginationLoop : true,		// 默认true，启用分页条无限循环的功能
+        pageList : [ 20, 30, 40, 50 ],	// 设置页面可以显示的数据条数
+        pageSize : 20, 				// 页面默认数据条数
+        pageNumber : 1, 			// 首页页码
+        search : false,				// 启动搜索框
+        searchOnEnterKey : false,	// 默认false，输入自动搜索
+        showHeader : true,			// 默认true
+        showFooter : false,			// 默认false
+        clickToSelect: false,		// 为true时点击行选中复选框
+        toolbar : '',
+        //showToggle:true，
+        columns : [
+            { field : 'id', width : 100, align: 'center', title : '序号' },
+            { field : 'courseName', width : 200, align: 'center', title : '课程名称' },
+            { field : 'courseUrl', width : 300, align: 'center', title : '视频地址', formatter:function (v, r, i){
+                    var html = '<button type="button" onclick="click_a(\''+v+'\')" class="btn btn-pink outline-btn round" data-toggle="modal" data-target="#myModal" title="点击查看视频地址"><label class="hide">'+v+'</label>视频地址</button>';
+                    return html;
+            }},
+            { field : 'courseImgUrl', width : 300, align: 'center', title : '视频封面',formatter:function (v, r, i){
+                    var html = '<div class="profile-media" style="height: 50px;weight: 50px"><img style="height: 50px;weight:50px" src="'+v+'" alt=""></div>';
+                    return html;
+            }},
+            // { field : 'sysId', width : 100, align: 'center', title : '上传者' },
+            { field : 'createTime', width : 100, align: 'center', title : '创建时间' },
+            {field: '', valign: 'middle', title: '操作', events:'operateEvents', formatter: function(v, r, i) {
+                    var html = '';
+                        html += '<div class="button-wrap">\n' +
+                            '   <button class="btn btn-info"> <i class="fa fa fa-plus"></i> <span> 发 布 </span> </button>\n' +
+                            // '   <button class="btn btn-warning"> <i class="fa fa-wrench"></i> <span> 修 改 </span></button>\n' +
+                            '   <button class="btn btn-danger"> <i class="fa fa-remove"></i> <span> 删 除 </span> </button>\n' +
+                            ' </div>';
+                    return html;
+                }},
+
+        ],
+        onLoadSuccess : function(data) {
+            // 加载成功之后
+        }
+    });
+}
+
+function click_a(url) {
+    console.log(url);
+    document.getElementById('id_url_value').innerHTML = url;
+    $("#id_url").attr('href', url);
+}
+
+</script>
 
 </body>
 
