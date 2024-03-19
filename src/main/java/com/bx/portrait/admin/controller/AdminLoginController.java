@@ -27,6 +27,15 @@ public class AdminLoginController {
     }
 
     /**
+     * 用户客户端
+     * @return
+     */
+    @RequestMapping("/")
+    public ModelAndView index() {
+        return new ModelAndView("client/index");
+    }
+
+    /**
      * 登录
      */
     @PostMapping("/save")

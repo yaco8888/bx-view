@@ -61,11 +61,11 @@ public class AdminController {
         if ("".equals(classRoom.getCourseUrl()) || null == classRoom.getCourseUrl()) {
             return ResultUtils.ERROR("请上传视频");
         }
-        if ("".equals(classRoom.getCourseImgUrl()) || null == classRoom.getCourseImgUrl()) {
-            return ResultUtils.ERROR("请上传封面");
-        }
+//        if ("".equals(classRoom.getCourseImgUrl()) || null == classRoom.getCourseImgUrl()) {
+//            return ResultUtils.ERROR("请上传封面");
+//        }
         boolean insert = classRoom.insert();
-        if (!insert) return ResultUtils.ERROR("发布失败");
+        if (!insert) return ResultUtils.ERROR("上传失败");
         return ResultUtils.SUCCESS();
     }
 

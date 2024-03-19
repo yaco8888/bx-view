@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" th:href="@{/static/assets/images/favicon.png}" type="image/png">
+    <title></title>
+    <link th:href="@{/static/assets/css/icons.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/css/responsive.css}" rel="stylesheet">
+
+</head>
+
+<body class="sticky-header left-side-collapsed">
+
+
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+
+    <!--logo-->
+    <div class="logo">
+        <a><img th:src="@{/static/assets/images/logo.png}" alt=""></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a><img th:src="@{/static/assets/images/logo-icon.png}" alt=""></a>
+    </div>
+    <!--logo-->
+
+</div>
+<!--End left side menu-->
+
+
+<!-- main content start-->
+<div class="main-content">
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="timeline" class="container">
+
+                </div>
+            </div>
+
+        </div>
+        <!-- End Wrapper-->
+
+    </div>
+</div>
+
+<div class="modal right fade" id="videoModal" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">视频播放</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body" style="height: 500px;">
+                <video src="http://192.168.8.7:8888/mp4/ddfc2f562dd54d0993654deaf2fed97a.mp4"></video>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--End main content -->
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var contextPath = [[@{/}]];
+    /*]]>*/
+</script>
+<!--Begin core plugin -->
+<script th:src="@{/static/assets/js/jquery.min.js}"></script>
+<script th:src="@{/static/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/assets/plugins/moment/moment.js}"></script>
+<script th:src="@{/static/assets/js/jquery.slimscroll.js}"></script>
+<script th:src="@{/static/assets/js/jquery.nicescroll.js}"></script>
+<script th:src="@{/static/assets/js/functions.js}"></script>
+<!-- End core plugin -->
+<script>
+    $(function () {
+        $.post( contextPath + 'admin/list', function(res){
+            if (res.code == 1) {
+                initTimeLine(res.data)
+            }
+        });
+    })
+
+    function showVideoModal(url) {
+        console.log(url);
+        $('#videoModal').modal('show');
+    }
+
+    /**
+     * 初始化课程
+     */
+    function initTimeLine(data) {
+        const _id = $('#timeline');
+        if (null != data && data.length > 0) {}
+        var html = '';
+        for (let i = 0; i < data.length; i++) {
+            const _class = data[i];
+            if ((i+1)%2 != 0) {
+                html += '<div class="timeline-block">\n' +
+                    '                        <div class="timeline-img bg-primary"><i class="fa fa-area-chart"></i></div>\n' +
+                    '                        <div class="timeline-content">\n' +
+                    '                            <h3>'+_class.courseName+'</h3>\n' +
+                    '                            <p/><p/><p/>\n' +
+                    '                            <img src="'+_class.courseImgUrl+'"\n' +
+                    '                                 style="height: 190px;width:300px;">\n' +
+                    '                            <span class="date">'+_class.createTime+'</span>\n' +
+                    '                            <p/><p/><p/>\n' +
+                    '                            <button type="button" onclick="showVideoModal(\''+_class.courseUrl+'\')" class="btn btn-success"> 免费学习</button>\n' +
+                    '                        </div>\n' +
+                    '                    </div>';
+
+            } else {
+                html += '<div class="timeline-block">\n' +
+                    '                        <div class="timeline-img bg-primary"><i class="fa fa-area-chart"></i></div>\n' +
+                    '                        <div class="timeline-content">\n' +
+                    '                            <h3>'+_class.courseName+'</h3>\n' +
+                    '                            <p/><p/><p/>\n' +
+                    '                            <img src="'+_class.courseImgUrl+'"\n' +
+                    '                                 style="height: 190px;width:300px;">\n' +
+                    '                            <span class="date">'+_class.createTime+'</span>\n' +
+                    '                            <p/><p/><p/>\n' +
+                    '                            <button type="button" onclick="showVideoModal()" class="btn btn-success"> 免费学习</button>\n' +
+                    '                        </div>\n' +
+                    '                    </div>';
+
+            }
+        }
+        // end for
+        _id.append(html);
+    }
+
+</script>
+
+</body>
+
+</html>
