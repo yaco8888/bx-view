@@ -32,3 +32,7 @@ spring:
     # 这个开发配置为false，开启缓存之后模板只编译一次，只适合生产环境性能提升
     cache: false
     encoding: UTF-8
+
+# 自定义的 nginx 文件服务器路径
+upload:
+  path: http://192.168.1.4:1688/upload/mp4/

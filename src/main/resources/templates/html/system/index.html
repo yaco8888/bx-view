@@ -19,12 +19,24 @@
     <link th:href="@{/static/assets/css/style.css}" rel="stylesheet">
     <link th:href="@{/static/assets/css/responsive.css}" rel="stylesheet">
     <link th:href="@{/static/assets/table/bootstrap-table.min.css}" rel="stylesheet">
+    <link th:href="@{/static/assets/plugins/jquery-toast/jquery.toast.min.css}" rel="stylesheet" type="text/css">
+
 
     <style>
         .overflow-example {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .modal.right.fade .modal-dialog {
+            -webkit-transform: translate3d(25%, 0, 0);
+            transform: translate3d(25%, 0, 0);
+        }
+
+        .modal.right.fade.show .modal-dialog {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
         }
     </style>
 </head>
@@ -117,7 +129,7 @@
             </div>
 
             <!-- 模态框主体 -->
-            <div class="modal-body" >
+            <div class="modal-body">
                 <p id="id_url_value"></p>
                 <a id="id_url" href="" target="_blank">跳转</a>
             </div>
@@ -131,6 +143,47 @@
 
 </div>
 <!--End main content -->
+
+<!-- 发布课程modal -->
+<!-- 模态框 -->
+<div class="modal right fade" id="add_modal" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">发布课程</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form id="add_form">
+                    <div class="form-group">
+                        <label>课程名称</label>
+                        <input class="form-control" placeholder="请输入课程名称" name="courseName" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>课程视频</label>
+                        <input class="form-control" placeholder="文件路径" type="text" id="courseUrl" name="courseUrl" readonly>
+                        <input class="form-control" placeholder="请选择" id="check_course_url_file" type="file" >
+                    </div>
+                    <div class="form-group">
+                        <label>课程封面图</label>
+                        <input class="form-control" placeholder="文件路径" type="text" id="courseImgUrl" name="courseImgUrl" readonly>
+                        <input class="form-control" placeholder="请选择" id="check_course_img_url_file" type="file">
+                    </div>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="add()"> 发 布 </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -147,89 +200,202 @@
 <!-- End core plugin -->
 
 <!--Begin Page Level Plugin-->
-<!--<script th:src="@{/static/assets/plugins/morris-chart/morris.js}"></script>-->
-<!--<script th:src="@{/static/assets/plugins/morris-chart/raphael-min.js}"></script>-->
+<script th:src="@{/static/assets/plugins/jquery-toast/jquery.toast.min.js}"></script>
+<script th:src="@{/static/assets/pages/notifications.js}"></script>
 <script th:src="@{/static/assets/plugins/jquery-sparkline/jquery.charts-sparkline.js}"></script>
-<!--<script th:src="@{/static/assets/pages/dashboard.js}"></script>-->
 
 <script th:src="@{/static/assets/table/bootstrap-table.min.js}"></script>
 <script th:src="@{/static/assets/table/bootstrap-table-zh-CN.js}"></script>
 <!--End Page Level Plugin-->
 <script>
-$(function () {
-    console.log(123123123123);
-    initTable();
-})
+    $(function () {
+        initTable();
+        $('#check_course_url_file').change(function (){
+            // 视频地址
+            uploadFile('check_course_url_file');
+        })
+        $('#check_course_img_url_file').change(function (){
+            // 视频封面图片地址
+            uploadFile('check_course_img_url_file');
+        })
+    })
 
-function initTable() {
-    $('#table').bootstrapTable('destroy');
-    $('#table').bootstrapTable({
-        method : 'post',
-        //get方法使用默认的application/json
-        contentType : 'application/x-www-form-urlencoded',
-        url : contextPath + 'admin/list', // 路径
-        queryParams : function(parms){ // 参数
-            var parm = {
-                // name : name
+    function showAddModal() {
+        $('#add_modal').modal('show');
+        // 重置form表单
+        $("#add_form")[0].reset();
+    }
+
+    /**
+     * 发布任务
+     */
+    function add() {
+        const data = getFormJson('#add_form');
+        $.post( contextPath + 'admin/add', data, function(res){
+            if (res.code == 1) {
+                toastr('success');
+                $('#add_modal').modal('hide');
+                initTable();
+            } else {
+                toastr('error',res.message == '' ? '发布失败' : res.message);
             }
-            return parm
-        },
-        dataType: 'json',			// 返回数据类型
-        locale:'zh-CN',				// 中文支持
-        showRefresh: false,			// 刷新按钮
-        showColumns: false,			// 显示列筛选
-        //sidePagination: 'server',	// 设置在哪里进行分页，可选值为 'client' 或者 'server'
-        uniqueId : '', 				// 绑定ID，对每一行指定唯一标识符
-        cache : false, 				// 设置为 false，禁用 AJAX 数据缓存， 默认为true
-        striped : false, 			// 表格显示条纹，默认为false
-        pagination : true, 			// 在表格底部显示分页组件，默认false
-        paginationLoop : true,		// 默认true，启用分页条无限循环的功能
-        pageList : [ 20, 30, 40, 50 ],	// 设置页面可以显示的数据条数
-        pageSize : 20, 				// 页面默认数据条数
-        pageNumber : 1, 			// 首页页码
-        search : false,				// 启动搜索框
-        searchOnEnterKey : false,	// 默认false，输入自动搜索
-        showHeader : true,			// 默认true
-        showFooter : false,			// 默认false
-        clickToSelect: false,		// 为true时点击行选中复选框
-        toolbar : '',
-        //showToggle:true，
-        columns : [
-            { field : 'id', width : 100, align: 'center', title : '序号' },
-            { field : 'courseName', width : 200, align: 'center', title : '课程名称' },
-            { field : 'courseUrl', width : 300, align: 'center', title : '视频地址', formatter:function (v, r, i){
-                    var html = '<button type="button" onclick="click_a(\''+v+'\')" class="btn btn-pink outline-btn round" data-toggle="modal" data-target="#myModal" title="点击查看视频地址"><label class="hide">'+v+'</label>视频地址</button>';
-                    return html;
-            }},
-            { field : 'courseImgUrl', width : 300, align: 'center', title : '视频封面',formatter:function (v, r, i){
-                    var html = '<div class="profile-media" style="height: 50px;weight: 50px"><img style="height: 50px;weight:50px" src="'+v+'" alt=""></div>';
-                    return html;
-            }},
-            // { field : 'sysId', width : 100, align: 'center', title : '上传者' },
-            { field : 'createTime', width : 100, align: 'center', title : '创建时间' },
-            {field: '', valign: 'middle', title: '操作', events:'operateEvents', formatter: function(v, r, i) {
-                    var html = '';
+        });
+    }
+    function deleteRW(id) {
+        $.post( contextPath + 'admin/delete/' + id, function(res){
+            if (res.code == 1) {
+                toastr('success');
+                initTable();
+            } else {
+                toastr('error',res.message == '' ? '删除失败' : res.message);
+            }
+        });
+    }
+
+
+    /**
+     * 文件上传
+     * @param id
+     */
+    function uploadFile(id) {
+        const file = $('#' + id)[0].files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        $.ajax({
+            url: contextPath + 'admin/uplaod',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                if (res.code == 1) {
+                    toastr('success');
+                    if (id == 'check_course_url_file') {
+                        // 视频地址
+                        $('#courseUrl').val(res.data);
+                    } else if (id == 'check_course_img_url_file') {
+                        // 视频封面图片地址
+                        $('#courseImgUrl').val(res.data);
+                    }
+                } else {
+                    toastr('error', '上传失败')
+                }
+            },
+            error: function(error) {
+                toastr('error', '程序异常')
+            }
+
+        });
+    }
+
+    function initTable() {
+        $('#table').bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            method: 'post',
+            //get方法使用默认的application/json
+            contentType: 'application/x-www-form-urlencoded',
+            url: contextPath + 'admin/list', // 路径
+            queryParams: function (parms) { // 参数
+                var parm = {
+                    // name : name
+                }
+                return parm
+            },
+            dataType: 'json',			// 返回数据类型
+            locale: 'zh-CN',				// 中文支持
+            showRefresh: false,			// 刷新按钮
+            showColumns: false,			// 显示列筛选
+            //sidePagination: 'server',	// 设置在哪里进行分页，可选值为 'client' 或者 'server'
+            uniqueId: '', 				// 绑定ID，对每一行指定唯一标识符
+            cache: false, 				// 设置为 false，禁用 AJAX 数据缓存， 默认为true
+            striped: false, 			// 表格显示条纹，默认为false
+            pagination: true, 			// 在表格底部显示分页组件，默认false
+            paginationLoop: true,		// 默认true，启用分页条无限循环的功能
+            pageList: [20, 30, 40, 50],	// 设置页面可以显示的数据条数
+            pageSize: 20, 				// 页面默认数据条数
+            pageNumber: 1, 			// 首页页码
+            search: false,				// 启动搜索框
+            searchOnEnterKey: false,	// 默认false，输入自动搜索
+            showHeader: true,			// 默认true
+            showFooter: false,			// 默认false
+            clickToSelect: false,		// 为true时点击行选中复选框
+            toolbar: '',
+            //showToggle:true，
+            columns: [
+                {field: 'id', width: 100, align: 'center', title: '序号'},
+                {field: 'courseName', width: 200, align: 'center', title: '课程名称'},
+                {
+                    field: 'courseUrl', width: 300, align: 'center', title: '视频地址', formatter: function (v, r, i) {
+                        var html = '<button type="button" onclick="click_a(\'' + v + '\')" class="btn btn-pink outline-btn round" data-toggle="modal" data-target="#myModal" title="点击查看视频地址"><label class="hide">' + v + '</label>视频地址</button>';
+                        return html;
+                    }
+                },
+                {
+                    field: 'courseImgUrl',
+                    width: 300,
+                    align: 'center',
+                    title: '视频封面',
+                    formatter: function (v, r, i) {
+                        var html = '<div class="profile-media" style="height: 50px;weight: 50px"><img style="height: 50px;weight:50px" src="' + v + '" alt=""></div>';
+                        return html;
+                    }
+                },
+                // { field : 'sysId', width : 100, align: 'center', title : '上传者' },
+                {field: 'createTime', width: 100, align: 'center', title: '创建时间'},
+                {
+                    field: '', valign: 'middle', title: '操作', events: 'operateEvents', formatter: function (v, r, i) {
+                        var html = '';
                         html += '<div class="button-wrap">\n' +
-                            '   <button class="btn btn-info"> <i class="fa fa fa-plus"></i> <span> 发 布 </span> </button>\n' +
+                            '   <button class="btn btn-info" data-toggle="modal" onclick="showAddModal()" data-dismiss="add_modal"> <i class="fa fa fa-plus"></i> <span> 发 布 </span> </button>\n' +
                             // '   <button class="btn btn-warning"> <i class="fa fa-wrench"></i> <span> 修 改 </span></button>\n' +
-                            '   <button class="btn btn-danger"> <i class="fa fa-remove"></i> <span> 删 除 </span> </button>\n' +
+                            '   <button class="btn btn-danger" onclick="deleteRW(\'' + r.id +'\')"> <i class="fa fa-remove"></i> <span> 删 除 </span> </button>\n' +
                             ' </div>';
-                    return html;
-                }},
+                        return html;
+                    }
+                },
 
-        ],
-        onLoadSuccess : function(data) {
-            // 加载成功之后
-        }
-    });
-}
+            ],
+            onLoadSuccess: function (data) {
+                // 加载成功之后
+            }
+        });
+    }
 
-function click_a(url) {
-    console.log(url);
-    document.getElementById('id_url_value').innerHTML = url;
-    $("#id_url").attr('href', url);
-}
+    function click_a(url) {
+        document.getElementById('id_url_value').innerHTML = url;
+        $("#id_url").attr('href', url);
+    }
 
+    //获取表单数据  并返回json数据
+    function getFormJson(frm) {
+        var o = {};
+        var a = $(frm).serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    }
+
+    function toastr(status, message) {
+        $.toast().reset('all');
+        $("body").removeAttr('class');
+        $.toast({
+            heading: status == 'success' ? '操作成功' : '操做失败',
+            text: status == 'success' ? '' : message,
+            position: 'top-right',
+            loaderBg:'#FFBD4A',
+            icon: status == 'success' ? 'success':'error',
+            hideAfter: 3500,
+            stack: 6
+        });
+    }
 </script>
 
 </body>
