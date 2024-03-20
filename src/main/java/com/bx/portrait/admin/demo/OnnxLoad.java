@@ -5,6 +5,7 @@ import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
+import jakarta.json.Json;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
@@ -34,17 +35,17 @@ public class OnnxLoad {
     }
 
     public static void main(String[] args) throws OrtException {
-        Map<String, byte[]> recognize =
-                recognize(readFileToByteArray("images/1.jpg"));
-        recognize.forEach((k, v)->{
-            System.out.println(k);
-        });
+//        Map<String, byte[]> recognize =
+//                recognize(readFileToByteArray("images/1.jpg"));
+//        recognize.forEach((k, v)->{
+//            System.out.println(k);
+//        });
     }
 
     /**
      * @return Map  map key 是 百分比， value 是图片的byte
      */
-    public static Map<String, byte[]> recognize(byte[] bytes) throws OrtException {
+    public static String recognize(byte[] bytes) throws OrtException {
 
         String model_path = "src\\main\\resources\\yolov5\\helmet_1_25200_n.onnx";
 
@@ -163,10 +164,10 @@ public class OnnxLoad {
             faceRatio = emp / sumFaces * 100;
         }
 
-        Map<String, byte[]> map = new HashMap<>();
         MatOfByte matOfByte = new MatOfByte();
         Imgcodecs.imencode(".jpg", img, matOfByte);
-        map.put((String.format("%.2f", faceRatio) + "%"), matOfByte.toArray());
+
+        String json = "{\"r\": \""+(String.format("%.2f", faceRatio) + "%")+"\", \"data\": \""+ Base64.getEncoder().encodeToString(matOfByte.toArray())+"\"}";
 //        System.out.println("总人脸数： " + sumFaces + "  正脸数：" + emp);
 //        System.out.println("正脸率： " + String.format("%.2f", faceRatio) + "%");
 //        System.out.printf("耗时：%d ms.", (System.currentTimeMillis() - start_time));
@@ -179,7 +180,7 @@ public class OnnxLoad {
 //            HighGui.waitKey();
 //        HighGui.destroyAllWindows();
 //        System.exit(0);
-        return map;
+        return json;
     }
 
     public static void scaleCoords(float[] bbox, float orgW, float orgH, float padW, float padH, float gain) {

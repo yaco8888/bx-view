@@ -197,9 +197,8 @@
             </div>
 
             <!-- 模态框主体 -->
-            <div class="modal-body" style="height: 400px;">
-                <img height="300px" weight="300px;" src="https://img1.baidu.com/it/u=3824501778,1174071570&fm=253&fmt=auto&app=138&f=JPEG?w=354&h=500">
-                <p>正脸率：</p><p>100%</p>
+            <div class="modal-body" id="modal_v" style="height: 400px;">
+
             </div>
 
             <!-- 模态框底部 -->
@@ -260,7 +259,12 @@
         };
         // 接收到消息时触发
         socket.onmessage = function(event) {
-            console.log('Message from server: ' + event.data);
+            const json = JSON.parse(event.data);
+            // 创建一个 Blob 对象
+            const base64ImageData = "data:image/jpeg;base64," + json.data;
+            $('#modal_v').html('<img height="300px" weight="300px;" src="'+base64ImageData+'">\n' +
+                '                <p>正脸率：</p><p>"'+json.r+'"</p>')
+            // console.log('Message from server: ' + event.data);
         };
         // 连接关闭时触发
         socket.onclose = function() {

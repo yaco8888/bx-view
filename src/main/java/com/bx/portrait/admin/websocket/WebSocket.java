@@ -7,14 +7,20 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.Java2DFrameConverter;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -22,6 +28,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 @Slf4j
 @ServerEndpoint(value = "/ws/{id}")
+@RestController
 public class WebSocket {
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -71,38 +78,36 @@ public class WebSocket {
      * @param
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message) throws OrtException {
         // 获取到ID，然后查询ID对应的视频
         ClassRoom classRoom = new ClassRoom().selectById(message);
         if (null != classRoom) {
             // 拿到视频地址
             String courseUrl = classRoom.getCourseUrl();
             // 获取视频流
-            FFmpegFrameGrabber frameGrabber = new FFmpegFrameGrabber(courseUrl);
-            Java2DFrameConverter converter = new Java2DFrameConverter();
-            try {
-                frameGrabber.start();
-                // 拿到图片
-                while (true) {
-                    BufferedImage image = converter.convert(frameGrabber.grab());
-                    if (image == null) {
-                        break;
-                    }
-                    // 识别，返回一个map
-                    Map<String, byte[]> recognize =
-                            OnnxLoad.recognize(convertImageToByteArray(image));
-                    // 将图片数据发给前端
-                    sendOneMessage(Integer.parseInt(message),
-                            recognize.toString());
-                }
-                frameGrabber.stop();
-            } catch (FFmpegFrameGrabber.Exception e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (OrtException e) {
-                throw new RuntimeException(e);
+            VideoCapture videoCapture = new VideoCapture(courseUrl);
+            if (!videoCapture.isOpened()) {
+                System.out.println("找不到视频文件");
+                return;
             }
+            // 保存原始的 System.out
+            PrintStream originalOut = System.out;
+            // 将 System.out 设置为 null
+            System.setOut(null);
+            Mat frame = new Mat();
+            while (videoCapture.read(frame)) {
+                MatOfByte matOfByte = new MatOfByte();
+                Imgcodecs.imencode(".jpg", frame, matOfByte);
+                // 识别，返回一个map
+                String json = OnnxLoad.recognize(matOfByte.toArray());
+                // 将图片数据发给前端
+                sendOneMessage(Integer.parseInt(message),json);
+//                sendOneMessage(Integer.parseInt(message),
+//                        recognize.toString());
+            }
+            videoCapture.release();
+            // 恢复原始的 System.out
+            System.setOut(originalOut);
             System.out.println(message);
         }
 
