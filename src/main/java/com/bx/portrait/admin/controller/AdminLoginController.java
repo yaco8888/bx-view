@@ -32,7 +32,7 @@ public class AdminLoginController {
      */
     @RequestMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("client/index");
+        return new ModelAndView("system/login");
     }
 
     /**

@@ -185,6 +185,32 @@
     </div>
 </div>
 
+<!-- 视频预览 -->
+<div class="modal right fade" id="video_modal" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="position: relative;right: 122px;">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">预览</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body" style="height: 400px;">
+                <img height="300px" weight="300px;" src="https://img1.baidu.com/it/u=3824501778,1174071570&fm=253&fmt=auto&app=138&f=JPEG?w=354&h=500">
+                <p>正脸率：</p><p>100%</p>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     var contextPath = [[@{/}]];
@@ -220,17 +246,37 @@
         })
     })
 
+    /**
+     * websocket
+     */
+    function web_socket(id) {
+        // 创建 WebSocket 连接
+        const socket = new WebSocket('ws://localhost/ws/' + id);
+        // 连接建立时触发
+        socket.onopen = function() {
+            console.log('WebSocket connected');
+            // 发送消息给服务器
+            socket.send(id);
+        };
+        // 接收到消息时触发
+        socket.onmessage = function(event) {
+            console.log('Message from server: ' + event.data);
+        };
+        // 连接关闭时触发
+        socket.onclose = function() {
+            console.log('WebSocket closed');
+        };
+    }
+
+    function showVideoModal(id) {
+        $('#video_modal').modal('show');
+        web_socket(id);
+    }
+
     function showAddModal() {
         $('#add_modal').modal('show');
         // 重置form表单
         $("#add_form")[0].reset();
-    }
-
-    /**
-     * 识别
-     */
-    function recognize(id) {
-        console.log('识别');
     }
 
     /**
@@ -356,7 +402,7 @@
                             '   <button class="btn btn-info" data-toggle="modal" onclick="showAddModal()" data-dismiss="add_modal"> <i class="fa fa fa-plus"></i> <span> 上 传 </span> </button>\n' +
                             // '   <button class="btn btn-warning"> <i class="fa fa-wrench"></i> <span> 修 改 </span></button>\n' +
                             '   <button class="btn btn-danger" onclick="deleteRW(\'' + r.id +'\')"> <i class="fa fa-remove"></i> <span> 删 除 </span> </button>\n' +
-                            '<button class="btn btn-purple" onclick="recognize(\'' + r.id +'\')"> <i class="fa fa-exclamation"></i> <span> 识 别 </span> </button>'+
+                            '<button class="btn btn-purple" onclick="showVideoModal(\'' + r.id +'\')"> <i class="fa fa-exclamation"></i> <span> 回 看 </span> </button>'+
                             ' </div>';
                         return html;
                     }

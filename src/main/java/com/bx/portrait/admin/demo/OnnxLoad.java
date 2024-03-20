@@ -6,6 +6,7 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
@@ -13,12 +14,17 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.FloatBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- *主文件可直接运行，仅针对yolov5目标检测
+ * 主文件可直接运行，仅针对yolov5目标检测
  */
 public class OnnxLoad {
 
@@ -28,6 +34,17 @@ public class OnnxLoad {
     }
 
     public static void main(String[] args) throws OrtException {
+        Map<String, byte[]> recognize =
+                recognize(readFileToByteArray("images/1.jpg"));
+        recognize.forEach((k, v)->{
+            System.out.println(k);
+        });
+    }
+
+    /**
+     * @return Map  map key 是 百分比， value 是图片的byte
+     */
+    public static Map<String, byte[]> recognize(byte[] bytes) throws OrtException {
 
         String model_path = "src\\main\\resources\\yolov5\\helmet_1_25200_n.onnx";
 
@@ -41,139 +58,128 @@ public class OnnxLoad {
         OrtEnvironment environment = OrtEnvironment.getEnvironment();
         OrtSession.SessionOptions sessionOptions = new OrtSession.SessionOptions();
 
-        // 使用gpu,需要本机按钻过cuda，并修改pom.xml，不安装也能运行本程序
-        // sessionOptions.addCUDA(0);
-
         OrtSession session = environment.createSession(model_path, sessionOptions);
-        // 输出基本信息
-        session.getInputInfo().keySet().forEach(x-> {
-            try {
-                System.out.println("input name = " + x);
-                System.out.println(session.getInputInfo().get(x).getInfo().toString());
-            } catch (OrtException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        // 要检测的图片所在目录
-        String imagePath = "images";
 
         // 加载标签及颜色
         ODConfig odConfig = new ODConfig();
-        Map<String, String> map = getImagePathMap(imagePath);
-        for(String fileName : map.keySet()){
-            String imageFilePath = map.get(fileName);
-            System.out.println(imageFilePath);
-            // 读取 image
-            Mat img = Imgcodecs.imread(imageFilePath);
-            Mat image = img.clone();
-            Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2RGB);
+        // 读取 image
+//        Mat img = Imgcodecs.imread("images/3.jpg");
+        Mat img = Imgcodecs.imdecode(new MatOfByte(bytes), Imgcodecs.IMREAD_COLOR);
+        Mat image = img.clone();
+        Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2RGB);
 
+        // 在这里先定义下框的粗细、字的大小、字的类型、字的颜色(按比例设置大小粗细比较好一些)
+        int minDwDh = Math.min(img.width(), img.height());
+        int thickness = minDwDh / ODConfig.lineThicknessRatio;
+        long start_time = System.currentTimeMillis();
+        // 更改 image 尺寸
+        Letterbox letterbox = new Letterbox();
+        image = letterbox.letterbox(image);
 
-            // img.convertTo(img, CvType.CV_32FC1, 1. / 255);
-            // float[] whc = new float[NUM_INPUT_ELEMENTS];
-            // img.get(0, 0, whc);
-            // float[] chw = ImageUtil.whc2cwh(whc);
-            // FloatBuffer inputBuffer = FloatBuffer.wrap(chw);
-            // inputTensor = OnnxTensor.createTensor(this.env, inputBuffer, INPUT_SHAPE);
+        double ratio = letterbox.getRatio();
+        double dw = letterbox.getDw();
+        double dh = letterbox.getDh();
+        int rows = letterbox.getHeight();
+        int cols = letterbox.getWidth();
+        int channels = image.channels();
 
-            // 在这里先定义下框的粗细、字的大小、字的类型、字的颜色(按比例设置大小粗细比较好一些)
-            int minDwDh = Math.min(img.width(), img.height());
-            int thickness = minDwDh/ODConfig.lineThicknessRatio;
-            long start_time = System.currentTimeMillis();
-            // 更改 image 尺寸
-            Letterbox letterbox = new Letterbox();
-            image = letterbox.letterbox(image);
-
-            double ratio  = letterbox.getRatio();
-            double dw = letterbox.getDw();
-            double dh = letterbox.getDh();
-            int rows  = letterbox.getHeight();
-            int cols  = letterbox.getWidth();
-            int channels = image.channels();
-
-            // 将Mat对象的像素值赋值给Float[]对象
-            float[] pixels = new float[channels * rows * cols];
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    double[] pixel = image.get(j,i);
-                    for (int k = 0; k < channels; k++) {
-                        // 这样设置相当于同时做了image.transpose((2, 0, 1))操作
-                        pixels[rows*cols*k+j*cols+i] = (float) pixel[k]/255.0f;
-                    }
+        // 将Mat对象的像素值赋值给Float[]对象
+        float[] pixels = new float[channels * rows * cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                double[] pixel = image.get(j, i);
+                for (int k = 0; k < channels; k++) {
+                    // 这样设置相当于同时做了image.transpose((2, 0, 1))操作
+                    pixels[rows * cols * k + j * cols + i] = (float) pixel[k] / 255.0f;
                 }
             }
-
-            // 创建OnnxTensor对象
-            long[] shape = { 1L, (long)channels, (long)rows, (long)cols };
-            OnnxTensor tensor = OnnxTensor.createTensor(environment, FloatBuffer.wrap(pixels), shape);
-            HashMap<String, OnnxTensor> stringOnnxTensorHashMap = new HashMap<>();
-            stringOnnxTensorHashMap.put(session.getInputInfo().keySet().iterator().next(), tensor);
-
-            // 运行推理
-            OrtSession.Result output = session.run(stringOnnxTensorHashMap);
-            float[][] outputData = ((float[][][])output.get(0).getValue())[0];
-            Map<Integer, List<float[]>> class2Bbox = new HashMap<>();
-            for (float[] bbox : outputData) {
-
-                // center_x,center_y, width, height，score
-                float score = bbox[4];
-                if (score < confThreshold) continue;
-
-                // 获取标签
-                float[] conditionalProbabilities = Arrays.copyOfRange(bbox, 5, bbox.length);
-                int label = argmax(conditionalProbabilities);
-
-                // xywh to (x1, y1, x2, y2)
-                xywh2xyxy(bbox);
-
-                // 去除无效结果
-                if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) continue;
-
-                class2Bbox.putIfAbsent(label, new ArrayList<>());
-                class2Bbox.get(label).add(bbox);
-            }
-
-            List<Detection> detections = new ArrayList<>();
-            for (Map.Entry<Integer, List<float[]>> entry : class2Bbox.entrySet()) {
-
-                List<float[]> bboxes = entry.getValue();
-                bboxes = nonMaxSuppression(bboxes, nmsThreshold);
-                for (float[] bbox : bboxes) {
-                    String labelString = labels[entry.getKey()];
-                    detections.add(new Detection(labelString,entry.getKey(), Arrays.copyOfRange(bbox, 0, 4), bbox[4]));
-                }
-            }
-
-
-            for (Detection detection : detections) {
-                float[] bbox = detection.getBbox();
-                System.out.println(detection.toString());
-                // 画框
-                Point topLeft = new Point((bbox[0]-dw)/ratio, (bbox[1]-dh)/ratio);
-                Point bottomRight = new Point((bbox[2]-dw)/ratio, (bbox[3]-dh)/ratio);
-                Scalar color = new Scalar(odConfig.getOtherColor(detection.getClsId()));
-                Imgproc.rectangle(img, topLeft, bottomRight, color, thickness);
-                // 框上写文字
-                Point boxNameLoc = new Point((bbox[0]-dw)/ratio, (bbox[1]-dh)/ratio-3);
-
-                Imgproc.putText(img, detection.getLabel(), boxNameLoc, Imgproc.FONT_HERSHEY_SIMPLEX, 0.7, color, thickness);
-            }
-            System.out.printf("time：%d ms.", (System.currentTimeMillis() - start_time));
-
-            System.out.println();
-            //服务器部署：由于服务器没有桌面，所以无法弹出画面预览，主要注释一下代码
-
-            // 保存图像到同级目录
-            // Imgcodecs.imwrite(ODConfig.savePicPath, img);
-            // 弹窗展示图像
-            HighGui.imshow("Display Image", img);
-            // 按任意按键关闭弹窗画面，结束程序
-            HighGui.waitKey();
         }
-        HighGui.destroyAllWindows();
-        System.exit(0);
 
+        // 创建OnnxTensor对象
+        long[] shape = {1L, (long) channels, (long) rows, (long) cols};
+        OnnxTensor tensor = OnnxTensor.createTensor(environment, FloatBuffer.wrap(pixels), shape);
+        HashMap<String, OnnxTensor> stringOnnxTensorHashMap = new HashMap<>();
+        stringOnnxTensorHashMap.put(session.getInputInfo().keySet().iterator().next(), tensor);
+
+        // 运行推理
+        OrtSession.Result output = session.run(stringOnnxTensorHashMap);
+        float[][] outputData = ((float[][][]) output.get(0).getValue())[0];
+        Map<Integer, List<float[]>> class2Bbox = new HashMap<>();
+        for (float[] bbox : outputData) {
+
+            // center_x,center_y, width, height，score
+            float score = bbox[4];
+            if (score < confThreshold) continue;
+
+            // 获取标签
+            float[] conditionalProbabilities = Arrays.copyOfRange(bbox, 5, bbox.length);
+            int label = argmax(conditionalProbabilities);
+
+            // xywh to (x1, y1, x2, y2)
+            xywh2xyxy(bbox);
+
+            // 去除无效结果
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) continue;
+
+            class2Bbox.putIfAbsent(label, new ArrayList<>());
+            class2Bbox.get(label).add(bbox);
+        }
+
+        List<Detection> detections = new ArrayList<>();
+        for (Map.Entry<Integer, List<float[]>> entry : class2Bbox.entrySet()) {
+
+            List<float[]> bboxes = entry.getValue();
+            bboxes = nonMaxSuppression(bboxes, nmsThreshold);
+            for (float[] bbox : bboxes) {
+                String labelString = labels[entry.getKey()];
+                detections.add(new Detection(labelString, entry.getKey(), Arrays.copyOfRange(bbox, 0, 4), bbox[4]));
+            }
+        }
+
+        double emp = 0;
+        for (Detection detection : detections) {
+            float[] bbox = detection.getBbox();
+//                System.out.println(detection.toString());
+            // 画框
+            Point topLeft = new Point((bbox[0] - dw) / ratio, (bbox[1] - dh) / ratio);
+            Point bottomRight = new Point((bbox[2] - dw) / ratio, (bbox[3] - dh) / ratio);
+            Scalar color = new Scalar(odConfig.getOtherColor(detection.getClsId()));
+            Imgproc.rectangle(img, topLeft, bottomRight, color, thickness);
+            // 框上写文字
+            Point boxNameLoc = new Point((bbox[0] - dw) / ratio, (bbox[1] - dh) / ratio - 3);
+
+            Imgproc.putText(img, detection.getLabel(), boxNameLoc, Imgproc.FONT_HERSHEY_SIMPLEX, 0.7, color, thickness);
+
+            // 累计正脸人数
+            if ("no_helmet".equals(detection.getLabel())) {
+                emp++;
+            }
+        }
+        // 总人数
+        double sumFaces = detections.size();
+        // 正脸率
+        double faceRatio = 0.0;
+        if (sumFaces != 0 && emp != 0) {
+            faceRatio = emp / sumFaces * 100;
+        }
+
+        Map<String, byte[]> map = new HashMap<>();
+        MatOfByte matOfByte = new MatOfByte();
+        Imgcodecs.imencode(".jpg", img, matOfByte);
+        map.put((String.format("%.2f", faceRatio) + "%"), matOfByte.toArray());
+//        System.out.println("总人脸数： " + sumFaces + "  正脸数：" + emp);
+//        System.out.println("正脸率： " + String.format("%.2f", faceRatio) + "%");
+//        System.out.printf("耗时：%d ms.", (System.currentTimeMillis() - start_time));
+
+        // 保存图像到同级目录
+        // Imgcodecs.imwrite(ODConfig.savePicPath, img);
+        // 弹窗展示图像
+//            HighGui.imshow("Display Image", img);
+        // 按任意按键关闭弹窗画面，结束程序
+//            HighGui.waitKey();
+//        HighGui.destroyAllWindows();
+//        System.exit(0);
+        return map;
     }
 
     public static void scaleCoords(float[] bbox, float orgW, float orgH, float padW, float padH, float gain) {
@@ -183,6 +189,7 @@ public class OnnxLoad {
         bbox[2] = Math.max(0, Math.min(orgW - 1, (bbox[2] - padW) / gain));
         bbox[3] = Math.max(0, Math.min(orgH - 1, (bbox[3] - padH) / gain));
     }
+
     public static void xywh2xyxy(float[] bbox) {
         float x = bbox[0];
         float y = bbox[1];
@@ -239,17 +246,13 @@ public class OnnxLoad {
         return arg;
     }
 
-    public static Map<String, String> getImagePathMap(String imagePath){
-        Map<String, String> map = new TreeMap<>();
-        File file = new File(imagePath);
-        if(file.isFile()){
-            map.put(file.getName(), file.getAbsolutePath());
-        }else if(file.isDirectory()){
-            for(File tmpFile : Objects.requireNonNull(file.listFiles())){
-                map.putAll(getImagePathMap(tmpFile.getPath()));
-            }
+    private static byte[] readFileToByteArray(String filePath) {
+        Path path = Paths.get(filePath);
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        return map;
     }
-
 }
