@@ -2,6 +2,7 @@ package com.bx.portrait.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bx.portrait.admin.entity.Admin;
+import com.bx.portrait.room.entity.ClassRoom;
 import com.bx.portrait.system.SessionUtils;
 import com.bx.portrait.utils.MD5Utils;
 import com.bx.portrait.utils.result.ResultMsg;
@@ -32,7 +33,7 @@ public class AdminLoginController {
      */
     @RequestMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("system/login");
+        return new ModelAndView("client/index");
     }
 
     /**
@@ -49,6 +50,14 @@ public class AdminLoginController {
         }
         SessionUtils.setAdminUser(admin.getAdminUser());
         return ResultUtils.SUCCESS();
+    }
+
+    /**
+     * 查询所有的课程
+     */
+    @RequestMapping("/list")
+    public ResultMsg list() {
+        return ResultUtils.SUCCESS(new ClassRoom().selectAll());
     }
 
     /**

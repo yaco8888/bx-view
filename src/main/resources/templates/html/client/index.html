@@ -66,8 +66,11 @@
             </div>
 
             <!-- 模态框主体 -->
-            <div class="modal-body" style="height: 500px;">
-                <video src="http://192.168.8.7:8888/mp4/ddfc2f562dd54d0993654deaf2fed97a.mp4"></video>
+            <div class="modal-body" style="height: 600px;">
+                <video id="video" style="height: 270px;weight: 500px;" controls autoplay>
+                    <source type="video/mp4">
+                </video>
+                <div id="modal_v"></div>
             </div>
 
             <!-- 模态框底部 -->
@@ -97,16 +100,48 @@
 <!-- End core plugin -->
 <script>
     $(function () {
-        $.post( contextPath + 'admin/list', function(res){
+        $.post( contextPath + 'list', function(res){
             if (res.code == 1) {
                 initTimeLine(res.data)
             }
         });
     })
 
-    function showVideoModal(url) {
+
+    /**
+     * 打开摄像头
+     */
+    function openCamera(id) {
+        // 创建 WebSocket 连接
+        const socket = new WebSocket('ws://localhost/ws/'+ id);
+        // 连接建立时触发
+        socket.onopen = function() {
+            // 获取摄像头捕获的照片, 转base64，传给后台
+            console.log('WebSocket connected');
+            // 发送消息给服务器
+            socket.send('123213123123');
+        };
+        // 接收到消息时触发
+        socket.onmessage = function(event) {
+            const json = JSON.parse(event.data);
+            // 创建一个 Blob 对象
+            const base64ImageData = "data:image/jpeg;base64," + json.data;
+            $('#modal_v').html('<img height="250px" weight="250px;" src="'+base64ImageData+'">\n' +
+                '                <p>正脸率：</p><p>"'+json.r+'"</p>')
+            // console.log('Message from server: ' + event.data);
+        };
+        // 连接关闭时触发
+        socket.onclose = function() {
+            console.log('WebSocket closed');
+        };
+    }
+
+    function showVideoModal(url, id) {
         console.log(url);
         $('#videoModal').modal('show');
+        $('#video').attr('src', url);
+        // 打开摄像头
+        openCamera(id);
     }
 
     /**
@@ -128,7 +163,7 @@
                     '                                 style="height: 190px;width:300px;">\n' +
                     '                            <span class="date">'+_class.createTime+'</span>\n' +
                     '                            <p/><p/><p/>\n' +
-                    '                            <button type="button" onclick="showVideoModal(\''+_class.courseUrl+'\')" class="btn btn-success"> 免费学习</button>\n' +
+                    '                            <button type="button" onclick="showVideoModal(\''+_class.courseUrl+'\', \''+_class.id+'\')" class="btn btn-success"> 免费学习</button>\n' +
                     '                        </div>\n' +
                     '                    </div>';
 
@@ -142,7 +177,7 @@
                     '                                 style="height: 190px;width:300px;">\n' +
                     '                            <span class="date">'+_class.createTime+'</span>\n' +
                     '                            <p/><p/><p/>\n' +
-                    '                            <button type="button" onclick="showVideoModal()" class="btn btn-success"> 免费学习</button>\n' +
+                    '                            <button type="button" onclick="showVideoModal(\''+_class.courseUrl+'\', \''+_class.id+'\')" class="btn btn-success"> 免费学习</button>\n' +
                     '                        </div>\n' +
                     '                    </div>';
 
