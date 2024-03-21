@@ -32,18 +32,18 @@ public class WebSocket {
     /**
      * 用户ID
      */
-    private Integer id;
+    private String id;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     //虽然@Component默认是单例模式的，但springboot还是会为每个websocket连接初始化一个bean，所以可以用一个静态set保存起来。
     //  注：底下WebSocket是当前类名
     private static CopyOnWriteArraySet<WebSocket> webSockets =new CopyOnWriteArraySet<>();
     // 用来存在线连接用户信息
-    private static ConcurrentHashMap<Integer,Session> sessionPool = new ConcurrentHashMap<Integer,Session>();
+    private static ConcurrentHashMap<String,Session> sessionPool = new ConcurrentHashMap<String,Session>();
     /**
      * 链接成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("id")Integer id) {
+    public void onOpen(Session session, @PathParam("id")String id) {
         try {
             this.session = session;
             this.id = id;
@@ -75,7 +75,8 @@ public class WebSocket {
      * @param
      */
     @OnMessage
-    public void onMessage(String message,@PathParam("id")Integer id) throws Exception {
+    public void onMessage(String message,@PathParam("id")String id) throws Exception {
+        System.out.println("===============" + id);
         // 保存原始的 System.out
         PrintStream originalOut = System.out;
         // 将 System.out 设置为 null
@@ -158,7 +159,7 @@ public class WebSocket {
     }
 
     // 此为单点消息
-    public void sendOneMessage(Integer id, String message) {
+    public void sendOneMessage(String id, String message) {
         Session session = sessionPool.get(id);
         if (session != null&&session.isOpen()) {
             try {

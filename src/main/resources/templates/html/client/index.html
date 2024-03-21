@@ -113,7 +113,7 @@
      */
     function openCamera(id) {
         // 创建 WebSocket 连接
-        const socket = new WebSocket('ws://localhost/ws/'+ id);
+        const socket = new WebSocket('ws://localhost/ws/'+ generateUUID());
         // 连接建立时触发
         socket.onopen = function() {
             // 获取摄像头捕获的照片, 转base64，传给后台
@@ -142,6 +142,14 @@
         $('#video').attr('src', url);
         // 打开摄像头
         openCamera(id);
+    }
+
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     }
 
     /**
