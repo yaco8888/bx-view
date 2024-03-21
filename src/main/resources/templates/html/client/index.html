@@ -62,12 +62,15 @@
             <!-- 模态框头部 -->
             <div class="modal-header">
                 <h4 class="modal-title">视频播放</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" onclick="closeCamera()">&times;</button>
             </div>
 
             <!-- 模态框主体 -->
             <div class="modal-body" style="height: 600px;">
                 <video id="video" style="height: 270px;weight: 500px;" controls autoplay>
+                    <source type="video/mp4">
+                </video>
+                <video hidden="hidden" id="videoElement" style="height: 270px;weight: 500px;" controls autoplay>
                     <source type="video/mp4">
                 </video>
                 <div id="modal_v"></div>
@@ -107,19 +110,25 @@
         });
     })
 
+    // 关闭调节
+    var isAction = true;
 
+    function closeCamera() {
+        isAction = false;
+    }
     /**
      * 打开摄像头
      */
     function openCamera(id) {
         // 创建 WebSocket 连接
-        const socket = new WebSocket('ws://localhost/ws/'+ generateUUID());
+        var socket = new WebSocket('ws://localhost/ws/'+ generateUUID());
         // 连接建立时触发
         socket.onopen = function() {
             // 获取摄像头捕获的照片, 转base64，传给后台
             console.log('WebSocket connected');
             // 发送消息给服务器
-            socket.send('123213123123');
+            // socket.send(base64Image);
+            socket.send('action');
         };
         // 接收到消息时触发
         socket.onmessage = function(event) {
@@ -134,6 +143,37 @@
         socket.onclose = function() {
             console.log('WebSocket closed');
         };
+
+        // 打开摄像头
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var video = document.getElementById('videoElement');
+                video.srcObject = stream;
+                isAction = true;
+                video.addEventListener('play', function() {
+                    var interval = setInterval(function() {
+                        if (isAction) {
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext('2d');
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            var imageData = canvas.toDataURL('image/png');
+                            // 在这里可以将 imageData 发送到后端或进行其他操作
+                            // 将imageData转换为base64格式
+                            var base64Image = imageData.split(',')[1];
+                            // console.log('send = ' + base64Image);
+                            socket.send(base64Image + '');
+                        } else {
+                            clearInterval(interval); // 停止定时器
+                        }
+                    }, 400); // 每秒截取一帧
+                });
+
+            })
+            .catch(function(err) {
+                console.log('访问用户媒体设备失败:', err);
+            });
     }
 
     function showVideoModal(url, id) {

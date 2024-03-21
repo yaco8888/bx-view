@@ -5,18 +5,15 @@ import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
-import jakarta.json.Json;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
-import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
-import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,7 +44,7 @@ public class OnnxLoad {
      */
     public static String recognize(byte[] bytes) throws OrtException {
 
-        String model_path = "src\\main\\resources\\yolov5\\helmet_1_25200_n.onnx";
+        String model_path = "src\\main\\resources\\yolov5\\yolov5x.onnx";
 
         float confThreshold = 0.35F;
 
@@ -167,10 +164,11 @@ public class OnnxLoad {
         MatOfByte matOfByte = new MatOfByte();
         Imgcodecs.imencode(".jpg", img, matOfByte);
 
-        String json = "{\"r\": \""+(String.format("%.2f", faceRatio) + "%")+"\", \"data\": \""+ Base64.getEncoder().encodeToString(matOfByte.toArray())+"\"}";
+        String json = "{\"r\": \""+(String.format("%.2f", faceRatio) + "%")+"\", \"data\": \""+ Base64.encodeBase64String(matOfByte.toArray())+"\"}";
 //        System.out.println("总人脸数： " + sumFaces + "  正脸数：" + emp);
 //        System.out.println("正脸率： " + String.format("%.2f", faceRatio) + "%");
-//        System.out.printf("耗时：%d ms.", (System.currentTimeMillis() - start_time));
+        System.out.printf("耗时：%d ms.", (System.currentTimeMillis() - start_time));
+        System.out.println();
 
         // 保存图像到同级目录
         // Imgcodecs.imwrite(ODConfig.savePicPath, img);

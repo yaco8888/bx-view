@@ -5,13 +5,13 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,10 +22,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint(value = "/ws/{id}")
 @RestController
 public class WebSocket {
-
-    public static void main(String[] args) throws IOException {
-
-    }
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -44,6 +40,9 @@ public class WebSocket {
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("id")String id) {
+        // 设置缓冲区大小
+        session.setMaxTextMessageBufferSize(1024 * 1024 * 10); // 设置文本消息的最大缓冲区大小为1MB
+        session.setMaxBinaryMessageBufferSize(1024 * 1024 * 10); // 设置二进制消息的最大缓冲区大小为1MB
         try {
             this.session = session;
             this.id = id;
@@ -76,19 +75,14 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message,@PathParam("id")String id) throws Exception {
-        System.out.println("===============" + id);
-        // 保存原始的 System.out
-        PrintStream originalOut = System.out;
-        // 将 System.out 设置为 null
-        System.setOut(null);
-        // 假设message传过来的数据是base64
-//        byte[] bytes = Base64.getDecoder().decode(message);
-        String json = OnnxLoad.recognize(new FileInputStream("images/1.jpg").readAllBytes());
-        sendOneMessage(id,json);
-
-        // 恢复原始的 System.out
-        System.setOut(originalOut);
-        log.info("【websocket消息】收到客户端消息:"+message);
+//        System.out.println("===============" + id);
+        if (!"action".equals(message)) {
+            // 假设message传过来的数据是base64
+            byte[] bytes = Base64.decodeBase64(message);
+            String json = OnnxLoad.recognize(bytes);
+            sendOneMessage(id,json);
+        }
+//        log.info("【websocket消息】收到客户端消息:"+message);
     }
 //    /**
 //     * 收到客户端消息后调用的方法
@@ -163,7 +157,7 @@ public class WebSocket {
         Session session = sessionPool.get(id);
         if (session != null&&session.isOpen()) {
             try {
-                log.info("【websocket消息】 单点消息:"+message);
+//                log.info("【websocket消息】 单点消息:"+message);
                 session.getAsyncRemote().sendText(message);
             } catch (Exception e) {
                 e.printStackTrace();
